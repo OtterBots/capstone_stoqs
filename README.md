@@ -18,10 +18,11 @@ mbari/stoqs-postgis            latest    e9795be56070   3 weeks ago      625MB
 - Docker Containers Running
 
 ```
-mbari/stoqs-mapserver          latest    fc4a219a5447   58 seconds ago   1.21GB
-mbari/stoqs                    latest    59dfcf2c38cc   9 minutes ago    3.38GB
-mbari/stoqs-nginx              latest    bf389e963ed6   5 days ago       109MB
-mbari/stoqs-postgis            latest    e9795be56070   3 weeks ago      625MB
+CONTAINER ID   NAME              CPU %     MEM USAGE / LIMIT     MEM %     NET I/O           BLOCK I/O        PIDS
+35a43162cc1d   stoqs-postgis     0.02%     18.64MiB / 13.51GiB   0.13%     3.87kB / 1.57kB   1.37MB / 4.1kB   7
+f21150c3e557   stoqs-mapserver   0.00%     15.84MiB / 13.51GiB   0.11%     2.48kB / 0B       496kB / 0B       19
+8c402c7ec86c   stoqs             100.18%   11.34MiB / 13.51GiB   0.08%     3.75kB / 1.43kB   10.8MB / 0B      3
+0df1fce8e2bf   stoqs-nginx       0.00%     2.645MiB / 13.51GiB   0.02%     2.18kB / 0B       57.3kB / 0B      3
 ```
 
 Objective:
