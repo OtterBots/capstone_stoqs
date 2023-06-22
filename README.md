@@ -1,9 +1,28 @@
 # capstone_stoqs
 CSUMB Otterbots capstone project.
 
-Description: goes here.
+### Description: goes here.
 
-Problem statement:
+### Problem statement: 
+- Update docker containers for local development envirionment of stoqs with postgresql server.
+- Refactor STOQS to conform to cookiecutter Django file structure
+- Improve system resources
+  #### Before:
+- Docker Images
+```
+mbari/stoqs-mapserver          latest    fc4a219a5447   58 seconds ago   1.21GB
+mbari/stoqs                    latest    59dfcf2c38cc   9 minutes ago    3.38GB
+mbari/stoqs-nginx              latest    bf389e963ed6   5 days ago       109MB
+mbari/stoqs-postgis            latest    e9795be56070   3 weeks ago      625MB
+```
+- Docker Containers Running
+
+```
+mbari/stoqs-mapserver          latest    fc4a219a5447   58 seconds ago   1.21GB
+mbari/stoqs                    latest    59dfcf2c38cc   9 minutes ago    3.38GB
+mbari/stoqs-nginx              latest    bf389e963ed6   5 days ago       109MB
+mbari/stoqs-postgis            latest    e9795be56070   3 weeks ago      625MB
+```
 
 Objective:
 
