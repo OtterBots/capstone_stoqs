@@ -50,7 +50,9 @@ echo "Checking for presence of stoqs database..."
 POSTGRES_DB=stoqs python ${STOQS_SRVHOME}/docker/database-check.py
 if [[ $? != 0 ]]; then
     echo "Creating default stoqs database and running tests..."
-    ./test.sh changeme load noextraload
+    #./test.sh changeme load noextraload
+    # sub env variable for password
+    ./test.sh ${POSTGRES_PASSWORD} load noextraload
 fi
 
 if [[ ! -z $CAMPAIGNS_MODULE ]]; then
