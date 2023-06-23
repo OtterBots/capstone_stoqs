@@ -1,7 +1,7 @@
 #FROM osgeo/gdal:ubuntu-small-3.6.0
 FROM python:3.11.4-slim-bullseye as python
 
-MAINTAINER Mike McCann <mccann@mbari.org>
+#MAINTAINER Mike McCann <mccann@mbari.org>
 
 #ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONUNBUFFERED 1
