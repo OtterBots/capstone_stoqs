@@ -5,10 +5,10 @@ STOQS_SRVHOME=/srv
 STOQS_SRVPROJ=/srv/compose/local/stoqs
 
 # Ensure that stoqs-postgis container is serving databases before continuing
-POSTGRES_DB=postgres python ${STOQS_SRVHOME}/docker/database-check.py > /dev/null 2>&1
+POSTGRES_DB=postgres python ${STOQS_SRVHOME}/compose/local/stoqs/database-check.py > /dev/null 2>&1
 while [[ $? != 0 ]] ; do
     sleep 5; echo "*** Waiting for postgis container ..."
-    POSTGRES_DB=postgres python ${STOQS_SRVHOME}/docker/database-check.py > /dev/null 2>&1
+    POSTGRES_DB=postgres python ${STOQS_SRVHOME}/compose/local/stoqs/database-check.py > /dev/null 2>&1
 done
 
 # Allow for psql execution (used for database creation) without a password
