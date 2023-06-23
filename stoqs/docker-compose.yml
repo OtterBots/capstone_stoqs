@@ -78,9 +78,8 @@ services:
       - USER=${USER}
     container_name: stoqs
     depends_on:
-   # Remove mapserver depenency 
-   #   - mapserver
-      - postgres #renamed postgis to postgres 
+      - mapserver
+      - postgis 
     ports:
       - "8000:8000" # use django port 8000 (was 8888)
     # Expose port 8000 if PRODUCTION=false - Note: PRODUCTION=false doesn't work (March 2019)
