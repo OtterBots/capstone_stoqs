@@ -1,0 +1,118 @@
+#!/usr/bin/env python
+
+import os
+import sys
+
+parentDir = os.path.join(os.path.dirname(__file__), "../")
+sys.path.insert(0, parentDir)  # So that CANON is found
+
+from argparse import ArgumentParser
+from CANON import CANONLoader
+from datetime import datetime
+from stoqs.models import Activity
+import timing
+import traceback
+
+cl = CANONLoader('$db_alias', '$title',
+                 description='$description',
+                 x3dTerrains={
+                   'https://stoqs.mbari.org/x3d/Monterey25_10x/Monterey25_10x_scene.x3d': {
+                     'position': '-2822317.31255 -4438600.53640 3786150.85474',
+                     'orientation': '0.89575 -0.31076 -0.31791 1.63772',
+                     'centerOfRotation': '-2711557.9403829873 -4331414.329506527 3801353.4691465236',
+                     'VerticalExaggeration': '10',
+                   },
+                   'https://stoqs.mbari.org/x3d/Monterey25_10x/Monterey25_e10_lat_rev.glb': {
+                     'name': 'Monterey25_e10',
+                     'position': '-2709340.15630 3838759.47032 -4315928.63232',
+                     'orientation': '-0.92531 0.16085 0.34340 1.48161',
+                     'centerOfRotation': '-2698376.20956 3816324.15548 -4328209.99402',
+                     'zNear': '10000.0',
+                     'zFar': '30000000.0',
+                     'VerticalExaggeration': '10',
+                   },
+                   'https://stoqs.mbari.org/x3d/Monterey25_1x/Monterey25_1x_src_scene.x3d': {
+                     'name': 'Monterey25_1x',
+                     'position': '-2822317.31255 -4438600.53640 3786150.85474',
+                     'orientation': '0.89575 -0.31076 -0.31791 1.63772',
+                     'centerOfRotation': '-2711557.9403829873 -4331414.329506527 3801353.4691465236',
+                     'VerticalExaggeration': '1',
+                   },
+                   'https://stoqs.mbari.org/x3d/Globe_1m_bath_10x/Globe_1m_bath_10x_scene.x3d': {
+                     'position': '14051448.48336 -15407886.51486 6184041.22775',
+                     'orientation': '0.83940 0.33030 0.43164 1.44880',
+                     'centerOfRotation': '0 0 0',
+                     'VerticalExaggeration': '10',
+                   },
+                   'https://stoqs.mbari.org/x3d/erie_lld_10x/erie_lld_10x_scene.x3d': {
+                     'position': '557315.50014 -4777725.37774 4229154.62985',
+                     'orientation': '0.99936 -0.02525 -0.02534 1.59395',
+                     'centerOfRotation': '555524.3673806359 -4734293.352168839 4223218.342988144',
+                     'VerticalExaggeration': '10',
+                     'speed': '0.1',
+                    },
+                    'https://stoqs.mbari.org/x3d/michigan_lld_10x/michigan_lld_10x_src_scene.x3d': {
+                      'position': '260508.70011 -4920934.73726 4257472.30926',
+                      'orientation': '1.00000 0.00113 -0.00025 1.66609',
+                      'centerOfRotation': '239815.39152 -4691345.97184 4297950.38875',
+                      'VerticalExaggeration': '10',
+                      'speed': '0.1',
+                    },
+                    'https://stoqs.mbari.org/x3d/GMRTv3_9_20220109topo/GMRTv3_9_20220109topo.glb': {
+                      'position': '1700789.00462 -4894584.45935 3999701.63222',
+                      'orientation': '0.99079 0.11407 0.07294 1.79952',
+                      'centerOfRotation': '1643409.77755 -4620318.75966 4062958.74412',
+                      'VerticalExaggeration': '10',
+                      'speed': '0.1',
+                    },
+                 },
+                 grdTerrain=os.path.join(parentDir, 'Monterey25.grd')
+                 )
+
+sdate = datetime($s_year, $s_month, $s_day)
+edate = datetime($e_year, $e_month, $e_day)
+
+cl.parser.add_argument('--realtime', action='store_true', help='Load realtime data')
+cl.parser.add_argument('--missionlogs', action='store_true', help='Load delayed mode (missionlogs) data')
+cl.process_command_line()
+
+if cl.args.startdate:
+    sdate = datetime.strptime(cl.args.startdate, '%Y%m%d')
+
+if cl.args.test:
+    cl.stride = 10000
+elif cl.args.stride:
+    cl.stride = cl.args.stride
+
+try:
+    for lrauv in $lrauvs:
+        if cl.args.realtime:
+            cl.loadLRAUV(lrauv, sdate, edate, critSimpleDepthTime=0.1, sbd_logs=True)
+        if cl.args.missionlogs:
+            cl.loadLRAUV(lrauv, sdate, edate, critSimpleDepthTime=0.1)
+        if not cl.args.realtime and not cl.args.missionlogs:
+            cl.loadLRAUV(lrauv, sdate, edate, critSimpleDepthTime=0.1, sbd_logs=True)
+            cl.loadLRAUV(lrauv, sdate, edate, critSimpleDepthTime=0.1)
+except KeyboardInterrupt:
+    # Likely purposfully terminated return with 0 return code so that we don't drop the database
+    print("KeyboardInterrupt: exiting lrauv section with 0 return code")
+    sys.exit(0)
+
+if Activity.objects.using(cl.dbAlias):
+    # Only add Dorado missions if we have LRAUV Activities
+    try:
+        cl.loadDorado(sdate, edate, build_attrs=True, plankton_proxies=True)
+    except KeyboardInterrupt:
+        # Likely purposfully terminated return with 0 return code so that we don't drop the database
+        print("KeyboardInterrupt: exiting dorado section with 0 return code")
+        sys.exit(0)
+
+try:
+    # Add any X3D Terrain information specified in the constructor to the database - must be done after a load is executed
+    cl.addTerrainResources()
+    print("All Done loading $db_alias.")
+except Exception as e:
+    print("Failed to load $db_alias.")
+    traceback.print_exc()
+    sys.exit(-1)
+
