@@ -53,6 +53,7 @@ WORKDIR /srv
 
 # Symlink to requirements from docker directory used to minimize context
 COPY requirements /requirements
+# TODO Change to Dev
 RUN /bin/bash -c 'pip install -r /requirements/production.txt --root-user-action=ignore'
 
 # Connection to uwsgi/nginx
