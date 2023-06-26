@@ -53,15 +53,15 @@ WORKDIR /srv
 
 # Symlink to requirements from docker directory used to minimize context
 COPY requirements /requirements
-# TODO Change to Dev
-RUN /bin/bash -c 'pip install -r /requirements/production.txt --root-user-action=ignore'
+RUN /bin/bash -c 'pip install -r /requirements/development.txt --root-user-action=ignore'
 
-# Connection to uwsgi/nginx
+# Connection to uwsgi/nginx  MAYBE DELETE
 COPY docker-stoqs-uwsgi.ini /etc/uwsgi/django-uwsgi.ini
 
 # For functional tests and running development/debug/ci
-COPY stoqs-start-run_server.sh /
-RUN chmod +x /stoqs-start-run_server.sh
+#Turning this off for now
+#COPY stoqs-start-run_server.sh /
+#RUN chmod +x /stoqs-start-run_server.sh
 
 #I think this is outside of the container I didnt know it could work like that 
 CMD ["compose/local/stoqs/stoqs-start.sh"]
