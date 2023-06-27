@@ -1,4 +1,4 @@
-version: '2.2'
+version: '3' #update to match local.yml
 
 volumes:
     static-files:
@@ -11,6 +11,7 @@ services:
     build:
         context: .
         dockerfile: Dockerfile-postgis
+    ## TODO NEED TO MAKE SURE THESE PATHS ARE CORRECT (Env variables)
     volumes:
       - ${POSTGRES_DATA}:/var/lib/postgresql/data
       - ${POSTGRES_WALDIR}:/var/lib/postgresql/waldir
@@ -20,6 +21,8 @@ services:
       - "${STOQS_PGHOST_PORT}:5432"
     # Set user for deployment on MacOS, assign HOST_UID=<result of `id -u`> in your .env file
     ##user: ${HOST_UID}
+    #UNcomment to access container db from local machine
+    #  - '5432:5432'
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - STOQSADM_PASSWORD=${STOQSADM_PASSWORD}
@@ -37,13 +40,14 @@ services:
     image: mbari/stoqs-mapserver
     build:
         context: .
-        dockerfile: Dockerfile-mapserver
+        dockerfile: ./compose/local/mapserver/Dockerfile-mapserver
     volumes:
       - ${STOQS_VOLS_DIR}/maps:${URL_MAPFILE_DIR}:ro
     container_name: stoqs-mapserver
     # Expose port 80 if PRODUCTION=false - Note: PRODUCTION=false doesn't work (March 2019)
-    ##ports:
-    ##  - "80:80"
+    # Exposed port per above  recommendation for non prod build ^^^^^
+    ports:
+      - "80:80"
     restart: always
     env_file:
       - ./.env
@@ -52,7 +56,7 @@ services:
     image: mbari/stoqs
     build:
         context: .
-        dockerfile: Dockerfile-stoqs
+        dockerfile: ./compose/local/stoqs/Dockerfile-stoqs
     volumes:
       - ${STOQS_VOLS_DIR}/maps:${MAPFILE_DIR}
       - ${STOQS_VOLS_DIR}/stoqs_root:/root
@@ -79,35 +83,35 @@ services:
     container_name: stoqs
     depends_on:
       - mapserver
-      - postgis
+      - postgis 
     ports:
-      - "8888:8888"
+      - "8000:8000" # use django port 8000 (was 8888)
     # Expose port 8000 if PRODUCTION=false - Note: PRODUCTION=false doesn't work (March 2019)
     ##  - "8000:8000"
     restart: always
     env_file:
       - ./.env
 
-  # Disable nginx service if PRODUCTION=false - Note: PRODUCTION=false doesn't work (March 2019)
-  nginx:
-    image: mbari/stoqs-nginx
-    build:
-        context: .
-        dockerfile: Dockerfile-nginx
-    volumes:
-      - ${STOQS_VOLS_DIR}/html:/srv/html
-      - ${STOQS_VOLS_DIR}/pg_dumps:/srv/media-files/pg_dumps
-      - static-files:/srv/static-files
-      - media-files:/srv/media-files
-    environment:
-      - NGINX_TMPL=${NGINX_TMPL}
-    container_name: stoqs-nginx
-    ports:
-      - "80:80"
-      - "8000:8000"
-      - "443:443"
-    depends_on:
-      - stoqs
-    restart: always
-    env_file:
-      - ./.env
+  # Remove nginx
+ # nginx:
+ #   image: mbari/stoqs-nginx
+ #   build:
+ #       context: .
+ #       dockerfile: Dockerfile-nginx
+ #   volumes:
+ #     - ${STOQS_VOLS_DIR}/html:/srv/html
+ #     - ${STOQS_VOLS_DIR}/pg_dumps:/srv/media-files/pg_dumps
+ #     - static-files:/srv/static-files
+ #     - media-files:/srv/media-files
+ #   environment:
+ #     - NGINX_TMPL=${NGINX_TMPL}
+ #   container_name: stoqs-nginx
+ #   ports:
+ #     - "80:80"
+ #     - "8000:8000"
+ #     - "443:443"
+ #   depends_on:
+ #     - stoqs
+ #   restart: always
+ #   env_file:
+ #     - ./.env

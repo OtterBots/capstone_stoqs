@@ -1,8 +1,11 @@
-FROM osgeo/gdal:ubuntu-small-3.6.0
+#FROM osgeo/gdal:ubuntu-small-3.6.0
+FROM python:3.11.4-slim-bullseye as python
 
-MAINTAINER Mike McCann <mccann@mbari.org>
+#MAINTAINER Mike McCann <mccann@mbari.org>
 
-ENV DEBIAN_FRONTEND=noninteractive
+#ENV DEBIAN_FRONTEND=noninteractive
+ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE 1
 
 # Inlined FROM pcic/geospatial-python
 RUN apt-get update && \
@@ -12,7 +15,9 @@ RUN apt-get update && \
     lsb-core \
     wget \
     python3-pip && \
-    rm -rf /var/lib/apt/lists/*
+    #CLEANING UP UNUSED FILES
+    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
+    && rm -rf /var/lib/apt/lists/*
 
 # Need at least pip 22.1 for --root-user-action option below
 RUN pip install -U pip
@@ -39,22 +44,25 @@ ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 RUN echo 'none /dev/shm tmpfs rw,nosuid,nodev,noexec 0 0' > /etc/fstab
 
 # Make sure python and python-config refer to corresponding Python 3 versions
-RUN cd /usr/bin/ &&\
-    ln -fs python3.10 python && \
-    ln -fs python3.10-config python-config
+#I dont think we need this because it seems they exist
+#RUN cd /usr/bin/ &&\
+#    ln -fs python3.10 python && \
+#    ln -fs python3.10-config python-config
 
 WORKDIR /srv
 
 # Symlink to requirements from docker directory used to minimize context
 COPY requirements /requirements
-RUN /bin/bash -c 'pip install -r /requirements/production.txt --root-user-action=ignore'
+RUN /bin/bash -c 'pip install -r /requirements/development.txt --root-user-action=ignore'
 
-# Connection to uwsgi/nginx
+# Connection to uwsgi/nginx  MAYBE DELETE
 COPY docker-stoqs-uwsgi.ini /etc/uwsgi/django-uwsgi.ini
 
 # For functional tests and running development/debug/ci
-COPY stoqs-start-run_server.sh /
-RUN chmod +x /stoqs-start-run_server.sh
+#Turning this off for now
+#COPY stoqs-start-run_server.sh /
+#RUN chmod +x /stoqs-start-run_server.sh
 
-CMD ["docker/stoqs-start.sh"]
+#I think this is outside of the container I didnt know it could work like that 
+CMD ["compose/local/stoqs/stoqs-start.sh"]
 

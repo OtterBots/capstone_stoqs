@@ -1,13 +1,14 @@
 #!/bin/bash
 
 STOQS_SRVHOME=/srv
-STOQS_SRVPROJ=/srv/stoqs
+#STOQS_SRVPROJ=/srv/stoqs
+STOQS_SRVPROJ=/srv/compose/local/stoqs
 
 # Ensure that stoqs-postgis container is serving databases before continuing
-POSTGRES_DB=postgres python ${STOQS_SRVHOME}/docker/database-check.py > /dev/null 2>&1
+POSTGRES_DB=postgres python ${STOQS_SRVHOME}/compose/local/stoqs/database-check.py > /dev/null 2>&1
 while [[ $? != 0 ]] ; do
     sleep 5; echo "*** Waiting for postgis container ..."
-    POSTGRES_DB=postgres python ${STOQS_SRVHOME}/docker/database-check.py > /dev/null 2>&1
+    POSTGRES_DB=postgres python ${STOQS_SRVHOME}/compose/local/stoqs/database-check.py > /dev/null 2>&1
 done
 
 # Allow for psql execution (used for database creation) without a password
@@ -22,16 +23,20 @@ if [[ ! -e ${STOQS_SRVPROJ}/loaders/Monterey25.grd ]]; then
     wget -q -N -O ${STOQS_SRVPROJ}/loaders/Monterey25.grd http://stoqs.mbari.org/terrain/Monterey25.grd
 fi
 
+#Commenting this out because we are not production
 # Volume shared with nginx for writing Matplotlib-generated images
-if [ "$PRODUCTION" == "true" ]; then
-    echo "Checking for presence of ${MEDIA_ROOT}/sections..."
-    if [[ ! -e ${MEDIA_ROOT}/sections ]]; then
-        echo "Creating directories for image generation and serving by nginx..."
-        mkdir -p ${MEDIA_ROOT}/sections ${MEDIA_ROOT}/parameterparameter
-        chmod 733 ${MEDIA_ROOT}/sections ${MEDIA_ROOT}/parameterparameter
-    fi
-fi
+#if [ "$PRODUCTION" == "true" ]; then
+#    echo "Checking for presence of ${MEDIA_ROOT}/sections..."
+#    if [[ ! -e ${MEDIA_ROOT}/sections ]]; then
+#        echo "Creating directories for image generation and serving by nginx..."
+#        mkdir -p ${MEDIA_ROOT}/sections ${MEDIA_ROOT}/parameterparameter
+#        chmod 733 ${MEDIA_ROOT}/sections ${MEDIA_ROOT}/parameterparameter
+#    fi
+#fi
 
+#Let this thing make the directory for us
+
+##### TODO Find out what MAPFILE_DIR is #$####
 echo "Checking for presence of directory for mapfiles: ${MAPFILE_DIR}"
 if [[ ! -e ${MAPFILE_DIR} ]]; then
     echo "mkdir ${MAPFILE_DIR}"
@@ -45,7 +50,9 @@ echo "Checking for presence of stoqs database..."
 POSTGRES_DB=stoqs python ${STOQS_SRVHOME}/docker/database-check.py
 if [[ $? != 0 ]]; then
     echo "Creating default stoqs database and running tests..."
-    ./test.sh changeme load noextraload
+    #./test.sh changeme load noextraload
+    # sub env variable for password
+    ./test.sh ${POSTGRES_PASSWORD} load noextraload
 fi
 
 if [[ ! -z $CAMPAIGNS_MODULE ]]; then
@@ -57,11 +64,13 @@ if [[ ! -z $CAMPAIGNS_MODULE ]]; then
         echo "Removing it for you..."
         /bin/rm ${STOQS_SRVHOME}/stoqs/campaigns.py
     fi
+    ###### TODO CHASE DOWN $CAMPAIGNS_MODULE ################
     echo "Copying ${STOQS_SRVHOME}/$CAMPAIGNS_MODULE to ${STOQS_SRVPROJ}/campaigns.py..."
     cp ${STOQS_SRVHOME}/$CAMPAIGNS_MODULE ${STOQS_SRVPROJ}/campaigns.py
 fi
 
 # Fire up stoqs web app
+
 if [ "$PRODUCTION" == "false" ]; then
     export MAPSERVER_SCHEME=http
     echo "Starting development server with DATABASE_URL=${DATABASE_URL}..."
