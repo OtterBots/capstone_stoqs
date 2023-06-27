@@ -4,8 +4,9 @@ Base settings to build other settings files upon.
 from pathlib import Path
 
 import environ
+from email.utils import getaddresses
 
-BASE_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
+BASE_DIR = environ.Path(__file__).resolve(strict=True).parent.parent.parent
 # stoqs/
 APPS_DIR = BASE_DIR / "stoqs"
 env = environ.Env()
@@ -15,39 +16,103 @@ if READ_DOT_ENV_FILE:
     # OS environment variables take precedence over variables from .env
     env.read_env(str(BASE_DIR / ".env"))
 
+
+# DATABASE CONFIGURATION
+# ------------------------------------------------------------------------------
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
+# Need to set environment variable DATABASE_URL containing DB login/password
+# e.g.: export DATABASE_URL="postgis://stoqsadm:CHANGEME@127.0.0.1:5432/stoqs"
+DATABASES = {
+    # Raises ImproperlyConfigured exception if DATABASE_URL not in os.environ
+    'default': env.db("DATABASE_URL")
+}
+DATABASES['default']['ATOMIC_REQUESTS'] = True
+
+DEFAULT_AUTO_FIELD='django.db.models.AutoField'
+
+# Functional tests require a separate MAPSERVER_DATABASE_URL setting
+MAPSERVER_DATABASE_URL = env('MAPSERVER_DATABASE_URL', default=env('DATABASE_URL'))
+if MAPSERVER_DATABASE_URL == env('DATABASE_URL'):
+    MAPSERVER_DATABASES = DATABASES.copy()
+else:
+    MAPSERVER_DATABASES = {
+        'default': env.db("MAPSERVER_DATABASE_URL")
+    }
+    MAPSERVER_DATABASES['default']['ATOMIC_REQUESTS'] = True
+    
+# For running additional databases append entries from STOQS_CAMPAIGNS environment
+# Example: export STOQS_CAMPAIGNS='stoqs_beds_canyon_events_t,stoqs_os2015_t'
+for campaign in env.list('STOQS_CAMPAIGNS', default=[]):
+    DATABASES[campaign] = DATABASES.get('default').copy()
+    DATABASES[campaign]['NAME'] = campaign
+    MAPSERVER_DATABASES[campaign] = MAPSERVER_DATABASES.get('default').copy()
+    MAPSERVER_DATABASES[campaign]['NAME'] = campaign
+    
+# GENERAL CONFIGURATION
+# ------------------------------------------------------------------------------
+# Local time zone for this installation. Choices can be found here:
+# http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
+# although not all choices may be available on all operating systems.
+# In a Windows environment this must be set to your system time zone.
+TIME_ZONE = 'UTC'
+
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#language-code
+LANGUAGE_CODE = 'en-us'
+
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#site-id
+SITE_ID = 1
+
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#use-i18n
+USE_I18N = True
+
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#use-l10n
+USE_L10N = True
+
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#use-tz
+# STOQS assumes all times are GMT, which is the timezone of the database
+# It's OK to use naiive datetimes with this policy
+USE_TZ = False
+
+# See: https://docs.djangoproject.com/en/3.0/ref/contrib/gis/install/geolibs/#geos-library-path
+#      https://docs.djangoproject.com/en/3.0/ref/contrib/gis/install/geolibs/#gdal-library-path
+# Default paths set to 'built from source' locations
+GEOS_LIBRARY_PATH = env('GEOS_LIBRARY_PATH', default='/usr/local/lib/libgeos_c.so')
+GDAL_LIBRARY_PATH = env('GDAL_LIBRARY_PATH', default='/usr/local/lib/libgdal.so')
+
+
 # GENERAL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
-DEBUG = env.bool("DJANGO_DEBUG", False)
-# Local time zone. Choices are
-# http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
-# though not all of them may be available with every OS.
-# In Windows, this must be set to your system time zone.
-TIME_ZONE = "UTC"
-# https://docs.djangoproject.com/en/dev/ref/settings/#language-code
-LANGUAGE_CODE = "en-us"
-# https://docs.djangoproject.com/en/dev/ref/settings/#languages
-# from django.utils.translation import gettext_lazy as _
-# LANGUAGES = [
-#     ('en', _('English')),
-#     ('pt-br', _('Português')),
-# ]
-# https://docs.djangoproject.com/en/dev/ref/settings/#site-id
-SITE_ID = 1
-# https://docs.djangoproject.com/en/dev/ref/settings/#use-i18n
-USE_I18N = True
-# https://docs.djangoproject.com/en/dev/ref/settings/#use-tz
-USE_TZ = True
-# https://docs.djangoproject.com/en/dev/ref/settings/#locale-paths
-LOCALE_PATHS = [str(BASE_DIR / "locale")]
+# DEBUG = env.bool("DJANGO_DEBUG", False)
+# # Local time zone. Choices are
+# # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
+# # though not all of them may be available with every OS.
+# # In Windows, this must be set to your system time zone.
+# TIME_ZONE = "UTC"
+# # https://docs.djangoproject.com/en/dev/ref/settings/#language-code
+# LANGUAGE_CODE = "en-us"
+# # https://docs.djangoproject.com/en/dev/ref/settings/#languages
+# # from django.utils.translation import gettext_lazy as _
+# # LANGUAGES = [
+# #     ('en', _('English')),
+# #     ('pt-br', _('Português')),
+# # ]
+# # https://docs.djangoproject.com/en/dev/ref/settings/#site-id
+# SITE_ID = 1
+# # https://docs.djangoproject.com/en/dev/ref/settings/#use-i18n
+# USE_I18N = True
+# # https://docs.djangoproject.com/en/dev/ref/settings/#use-tz
+# USE_TZ = True
+# # https://docs.djangoproject.com/en/dev/ref/settings/#locale-paths
+# LOCALE_PATHS = [str(BASE_DIR / "locale")]
 
 # DATABASES
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
-DATABASES = {"default": env.db("DATABASE_URL")}
-DATABASES["default"]["ATOMIC_REQUESTS"] = True
+# DATABASES = {"default": env.db("DATABASE_URL")}
+# DATABASES["default"]["ATOMIC_REQUESTS"] = True
 # https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-DEFAULT_AUTO_FIELD
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+# DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # URLS
 # ------------------------------------------------------------------------------
@@ -65,7 +130,7 @@ DJANGO_APPS = [
     "django.contrib.sites",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # "django.contrib.humanize", # Handy template tags
+    "django.contrib.humanize", # Handy template tags
     "django.contrib.admin",
     "django.forms",
 ]
@@ -140,7 +205,13 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'stoqs.db_router.RouterMiddleware',
 ]
+
+# DEBUG
+# ------------------------------------------------------------------------------
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#debug
+DEBUG = env.bool("DJANGO_DEBUG", default=True)
 
 # STATIC
 # ------------------------------------------------------------------------------
@@ -162,6 +233,8 @@ STATICFILES_FINDERS = [
 MEDIA_ROOT = str(APPS_DIR / "media")
 # https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = "/media/"
+
+
 
 # TEMPLATES
 # ------------------------------------------------------------------------------
@@ -219,6 +292,11 @@ EMAIL_BACKEND = env(
     "DJANGO_EMAIL_BACKEND",
     default="django.core.mail.backends.smtp.EmailBackend",
 )
+EMAIL_USE_TLS = env('EMAIL_USE_TLS', default=True)
+EMAIL_HOST = env('EMAIL_HOST', default='mbarimail.mbari.org')
+EMAIL_PORT = env('EMAIL_PORT', default=587)
+EMAIL_HOST_USER = env('EMAIL_HOST_USE', default='stoqsadm')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='')
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-timeout
 EMAIL_TIMEOUT = 5
 
@@ -226,34 +304,137 @@ EMAIL_TIMEOUT = 5
 # ------------------------------------------------------------------------------
 # Django Admin URL.
 ADMIN_URL = "admin/"
-# https://docs.djangoproject.com/en/dev/ref/settings/#admins
-ADMINS = [("""otterbots""", "otterbots@example.com")]
+# In the format 'Full Name <email@example.com>, Full Name <anotheremail@example.com>'
+# e.g. DJANGO_ADMINS=Full Name <email-with-name@example.com>,anotheremailwithoutname@example.com
+ADMINS = getaddresses([env('DJANGO_ADMINS', default='Super User <root@localhost>')])
+
 # https://docs.djangoproject.com/en/dev/ref/settings/#managers
 MANAGERS = ADMINS
 
-# LOGGING
+# Some really nice defaults
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+
+# SLUGLIFIER
+AUTOSLUG_SLUGIFY_FUNCTION = 'slugify.slugify'
+
+# LOGGING CONFIGURATION
 # ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#logging
-# See https://docs.djangoproject.com/en/dev/topics/logging for
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#logging
+# A sample logging configuration. The only tangible logging
+# performed by this configuration is to send an email to
+# the site admins on every HTTP 500 error when DEBUG=False.
+# See http://docs.djangoproject.com/en/dev/topics/logging for
 # more details on how to customize your logging configuration.
 LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "formatters": {
-        "verbose": {
-            "format": "%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s",
-        },
-    },
-    "handlers": {
-        "console": {
-            "level": "DEBUG",
-            "class": "logging.StreamHandler",
-            "formatter": "verbose",
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
         }
     },
-    "root": {"level": "INFO", "handlers": ["console"]},
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler'
+        },
+        'console_debug_false': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'logging.StreamHandler',
+        }
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins', 'console_debug_false'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    }
 }
 
+# For a development system (Vagrant) we use insecure apache which is http and the default
+# Docker uses a proxy through nginx which provides https (set in docker-compose.yml)
+MAPSERVER_SCHEME = env('MAPSERVER_SCHEME', default='http')
+
+# Must be externally accessible if your STOQS server is to be externally accessible
+# The default of 'localhost:8080' is for a Vagrant install, set MAPSERVER_HOST for
+# other cases, e.g. export MAPSERVER_HOST='172.16.130.204:80'
+MAPSERVER_HOST = env('MAPSERVER_HOST', default='localhost:8080')
+
+# For template generated .map files, the URL_ version is for Docker shared volume setup
+MAPFILE_DIR = env('MAPFILE_DIR', default='/dev/shm')
+URL_MAPFILE_DIR = env('URL_MAPFILE_DIR', default='/dev/shm')
+
+# To allow running Jupyter notebooks in Vagrant's or Docker's host browser
+# See: https://fsdev.io/how-to-install-jupyter-notebook-in-a-dockerized-django-project/
+NOTEBOOK_ARGUMENTS = [
+    '--ip', '0.0.0.0',
+    '--port', '8888',
+    '--allow-root',
+    '--no-browser',
+]
+
+# STOQS specific logging
+LOGGING['formatters'] = {
+    'veryverbose': {
+        'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(filename)s %(funcName)s():%(lineno)d %(message)s'
+    },
+    'verbose': {
+        'format': '%(levelname)s %(asctime)s %(filename)s %(funcName)s():%(lineno)d %(message)s'
+    },
+    'simple': {
+        'format': '%(levelname)s %(message)s'
+    },
+}
+LOGGING['handlers']['console'] = {
+                            'level':'DEBUG',
+                            'class':'logging.StreamHandler',
+                            'formatter': 'verbose'
+}
+LOGGING['loggers']['stoqs'] = {
+                            'handlers':['console'],
+                            'level':'INFO',
+                            'formatter': 'verbose'
+}
+LOGGING['loggers']['stoqs.db_router'] = {
+                            'handlers':['console'],
+                            'propagate': True,
+                            'level':'INFO',
+                            'formatter': 'verbose'
+}
+LOGGING['loggers']['loaders'] = {
+                            'handlers':['console'],
+                            'propagate': True,
+                            'level':'INFO',
+                            'formatter': 'verbose'
+}
+LOGGING['loggers']['utils'] = {
+                            'handlers':['console'],
+                            'propagate': True,
+                            'level':'INFO',
+                            'formatter': 'verbose'
+}
+LOGGING['loggers']['stoqs.views'] = {
+                            'handlers':['console'],
+                            'level':'INFO',
+                            'formatter': 'verbose'
+}
+LOGGING['loggers']['stoqs.tests'] = {
+                            'handlers':['console'],
+                            'level':'INFO',
+                            'formatter': 'verbose'
+}
+LOGGING['loggers']['__main__'] = {
+                            'handlers':['console'],
+                            'level':'INFO',
+                            'formatter': 'verbose'
+}
+LOGGING['loggers']['stoqs']['level'] = 'INFO'
 
 # django-allauth
 # ------------------------------------------------------------------------------
@@ -276,7 +457,10 @@ SOCIALACCOUNT_FORMS = {"signup": "stoqs.users.forms.UserSocialSignupForm"}
 # ------------------------------------------------------------------------------
 # https://django-compressor.readthedocs.io/en/latest/quickstart/#installation
 INSTALLED_APPS += ["compressor"]
-STATICFILES_FINDERS += ["compressor.finders.CompressorFinder"]
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
 # django-rest-framework
 # -------------------------------------------------------------------------------
 # django-rest-framework - https://www.django-rest-framework.org/api-guide/settings/
