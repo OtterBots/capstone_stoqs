@@ -39,8 +39,12 @@ RUN apt-get update && \
     graphviz \
     graphviz-dev \
     locales \
+    libxml2-dev \
+    libxslt-dev \
+    python-dev \
     postgresql-client \
     time \
+    g++ \
     xvfb \
     && locale-gen en_US.UTF-8
 
