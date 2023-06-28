@@ -43,9 +43,9 @@ View [cookie_config.txt](cookie_config.txt) file for settings used.
 6. This doenst work yet but we would like it to
 7. Make sure your Docker Desktop program is running.
 8. Build project:
-```docker-compose -f local.yml build```
+```docker-compose -f docker-compose.yml build```
 9. Run project:
-```docker-compose -f local.yml up```
+```docker-compose -f docker-compose.yml up```
 10. View project in browser:
 ```http://127.0.0.1:8000```
 or
