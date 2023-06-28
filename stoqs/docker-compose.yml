@@ -10,7 +10,7 @@ services:
     image: mbari/stoqs-postgis
     build:
         context: .
-        dockerfile: Dockerfile-postgis
+        dockerfile: ./compose/production/postgres/Dockerfile-postgis
     ## TODO NEED TO MAKE SURE THESE PATHS ARE CORRECT (Env variables)
     volumes:
       - ${POSTGRES_DATA}:/var/lib/postgresql/data

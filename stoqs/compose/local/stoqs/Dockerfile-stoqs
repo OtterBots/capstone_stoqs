@@ -1,6 +1,7 @@
 #FROM osgeo/gdal:ubuntu-small-3.6.0
 FROM python:3.11.4-slim-bullseye as python
 
+
 #MAINTAINER Mike McCann <mccann@mbari.org>
 
 #ENV DEBIAN_FRONTEND=noninteractive
@@ -9,18 +10,20 @@ ENV PYTHONDONTWRITEBYTECODE 1
 
 # Inlined FROM pcic/geospatial-python
 RUN apt-get update && \
-    apt-get -yq install \
+    apt-get install --no-install-recommends -y \
     libgdal-dev \
     libyaml-dev \
-    lsb-core \
+    lsb-release \
     wget \
-    python3-pip && \
+    python3-pip \
     #CLEANING UP UNUSED FILES
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
     && rm -rf /var/lib/apt/lists/*
 
 # Need at least pip 22.1 for --root-user-action option below
 RUN pip install -U pip
+#IS this dangerous?
+RUN pip install "setuptools<58.0.0"
 
 # Needed so that postgresql-client is version 15
 RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list' \
@@ -28,10 +31,13 @@ RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-
 
 # Additional requirements for stoqs
 RUN apt-get update && \
-    apt-get -yq install \
+    apt-get install --no-install-recommends -y  \
     freetds-dev \
     git \
     gmt \
+    gcc \
+    graphviz \
+    graphviz-dev \
     locales \
     postgresql-client \
     time \
@@ -56,7 +62,7 @@ COPY requirements /requirements
 RUN /bin/bash -c 'pip install -r /requirements/development.txt --root-user-action=ignore'
 
 # Connection to uwsgi/nginx  MAYBE DELETE
-COPY docker-stoqs-uwsgi.ini /etc/uwsgi/django-uwsgi.ini
+COPY ./compose/local/stoqs/docker-stoqs-uwsgi.ini /etc/uwsgi/django-uwsgi.ini
 
 # For functional tests and running development/debug/ci
 #Turning this off for now
