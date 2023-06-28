@@ -35,6 +35,9 @@ RUN apt-get update && \
     freetds-dev \
     git \
     gmt \
+    gcc \
+    graphviz \
+    graphviz-dev \
     locales \
     postgresql-client \
     time \
