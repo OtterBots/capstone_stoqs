@@ -279,3 +279,6 @@ stoqs/media/
 .ipython/
 .env
 # .envs/*
+
+# Other
+j*_info.txt
