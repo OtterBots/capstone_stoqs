@@ -277,8 +277,5 @@ stoqs/media/
 
 .pytest_cache/
 .ipython/
-.env
+# .env
 # .envs/*
-
-# Other
-j*_info.txt
