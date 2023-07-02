@@ -2,8 +2,8 @@
 version: "2.2"
 
 volumes:
-  # stoqs_local_postgres_data: {}
-  # stoqs_local_postgres_data_backups: {}
+  stoqs_local_postgres_data: {}
+  stoqs_local_postgres_data_backups: {}
   static-files:
   media-files:
 
