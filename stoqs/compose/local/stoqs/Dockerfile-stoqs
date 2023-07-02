@@ -1,27 +1,23 @@
-#FROM osgeo/gdal:ubuntu-small-3.6.0
-FROM python:3.11.4-slim-bullseye as python
+FROM osgeo/gdal:ubuntu-small-3.6.0
 
+# Depreciated
+# MAINTAINER Mike McCann <mccann@mbari.org>
 
-#MAINTAINER Mike McCann <mccann@mbari.org>
-
-#ENV DEBIAN_FRONTEND=noninteractive
-ENV PYTHONUNBUFFERED 1
-ENV PYTHONDONTWRITEBYTECODE 1
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Inlined FROM pcic/geospatial-python
 RUN apt-get update && \
-    apt-get install --no-install-recommends -y \
+    apt-get -yq install \
     libgdal-dev \
     libyaml-dev \
-    lsb-release \
+    lsb-core \
     wget \
-    python3-pip \
-    #CLEANING UP UNUSED FILES
-    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
-    && rm -rf /var/lib/apt/lists/*
+    python3-pip && \
+    rm -rf /var/lib/apt/lists/*
 
 # Need at least pip 22.1 for --root-user-action option below
 RUN pip install -U pip
+
 #IS this dangerous?
 RUN pip install "setuptools<58.0.0"
 
@@ -31,20 +27,16 @@ RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-
 
 # Additional requirements for stoqs
 RUN apt-get update && \
-    apt-get install --no-install-recommends -y  \
+    apt-get -yq install \
     freetds-dev \
     git \
     gmt \
-    gcc \
     graphviz \
     graphviz-dev \
     locales \
-    libxml2-dev \
-    libxslt-dev \
-    python-dev \
+    python3-dev \
     postgresql-client \
     time \
-    g++ \
     xvfb \
     && locale-gen en_US.UTF-8
 
@@ -54,10 +46,9 @@ ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 RUN echo 'none /dev/shm tmpfs rw,nosuid,nodev,noexec 0 0' > /etc/fstab
 
 # Make sure python and python-config refer to corresponding Python 3 versions
-#I dont think we need this because it seems they exist
-#RUN cd /usr/bin/ &&\
-#    ln -fs python3.10 python && \
-#    ln -fs python3.10-config python-config
+RUN cd /usr/bin/ &&\
+    ln -fs python3.10 python && \
+    ln -fs python3.10-config python-config
 
 WORKDIR /srv
 
@@ -65,14 +56,11 @@ WORKDIR /srv
 COPY requirements /requirements
 RUN /bin/bash -c 'pip install -r /requirements/local.txt --root-user-action=ignore'
 
-# Connection to uwsgi/nginx  MAYBE DELETE
-COPY ./compose/local/stoqs/docker-stoqs-uwsgi.ini /etc/uwsgi/django-uwsgi.ini
+# Connection to uwsgi/nginx
+COPY compose/local/stoqs/docker-stoqs-uwsgi.ini /etc/uwsgi/django-uwsgi.ini
 
 # For functional tests and running development/debug/ci
-#Turning this off for now
-#COPY stoqs-start-run_server.sh /
-#RUN chmod +x /stoqs-start-run_server.sh
+COPY compose/local/stoqs/stoqs-start-run_server.sh /
+RUN chmod +x /stoqs-start-run_server.sh
 
-#I think this is outside of the container I didnt know it could work like that 
 CMD ["compose/local/stoqs/stoqs-start.sh"]
-
