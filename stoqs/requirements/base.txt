@@ -39,6 +39,7 @@ hvplot==0.8.4
 ipython==8.13.0
 ipyleaflet==0.17.3
 jdcal==1.4.1
+psycopg2
 Jinja2==3.1.2
 jupyter==1.0.0
 lxml==4.9.1
