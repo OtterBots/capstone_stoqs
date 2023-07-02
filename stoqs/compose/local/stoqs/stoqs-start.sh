@@ -18,9 +18,9 @@ echo ${PGHOST}:\*:\*:postgres:${POSTGRES_PASSWORD} > /root/.pgpass &&\
 export PYTHONPATH="${STOQS_SRVPROJ}:${PYTHONPATH}"
 
 # Monterey Bay bathymetry data is needed for default (and many other) database loads
-if [[ ! -e ${STOQS_SRVPROJ}/loaders/Monterey25.grd ]]; then
+if [[ ! -e ${STOQS_HOME}/loaders/Monterey25.grd ]]; then
     echo "Getting Monterey25.grd..."
-    wget -q -N -O ${STOQS_SRVPROJ}/loaders/Monterey25.grd http://stoqs.mbari.org/terrain/Monterey25.grd
+    wget -q -N -O ${STOQS_SRVHOME}/loaders/Monterey25.grd http://stoqs.mbari.org/terrain/Monterey25.grd
 fi
 
 #Commenting this out because we are not production
@@ -47,12 +47,12 @@ chmod 777 ${MAPFILE_DIR}
 
 # If default stoqs database doesn't exist then load it - also running the unit and functional tests
 echo "Checking for presence of stoqs database..."
-POSTGRES_DB=stoqs python ${STOQS_SRVHOME}/docker/database-check.py
+POSTGRES_DB=stoqs python /srv/compose/local/stoqs/database-check.py
 if [[ $? != 0 ]]; then
     echo "Creating default stoqs database and running tests..."
     #./test.sh changeme load noextraload
     # sub env variable for password
-    ./test.sh ${POSTGRES_PASSWORD} load noextraload
+    ${STOQS_SRVPROJ=}/test.sh ${POSTGRES_PASSWORD} load noextraload
 fi
 
 if [[ ! -z $CAMPAIGNS_MODULE ]]; then
@@ -79,7 +79,7 @@ else
     echo "Starting production server with DATABASE_URL=${DATABASE_URL}..."
     # For testing on port 8000 before certificate is in place make a security exception in your browser
     export MAPSERVER_SCHEME=https
-    python stoqs/manage.py collectstatic --noinput -v 0 # Collect static files
+    python manage.py collectstatic --noinput -v 0 # Collect static files
     /usr/local/bin/uwsgi --emperor /etc/uwsgi/django-uwsgi.ini --pidfile=/tmp/uwsgi.pid
 fi
 

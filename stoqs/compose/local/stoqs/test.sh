@@ -34,7 +34,9 @@ then
 fi
 
 # switch backticks to expansion
-PGPORT=$(echo $DATABASE_URL | cut -d':' -f4 | cut -d'/' -f1)
+PGPORT=${STOQS_PGHOST_PORT}
+export PGPASSWORD=$POSTGRES_PASSWORD
+
 
 if [ -z $DATABASE_SUPERUSER_URL ]
 then
@@ -46,8 +48,10 @@ fi
 #cd stoqs
 
 # Create database roles used by STOQS applications - don't print out errors, e.g.: if role already exists
-psql -p $PGPORT -c "CREATE USER stoqsadm WITH PASSWORD '$1';" -U postgres 2> /dev/null
-psql -p $PGPORT -c "CREATE USER everyone WITH PASSWORD 'guest';" -U postgres 2> /dev/null
+echo 'making user'
+psql -h stoqs-postgis -p $PGPORT -c "CREATE USER stoqsadm WITH PASSWORD '$1';" -U postgres 
+psql -h stoqs-postgis -p $PGPORT -c "CREATE USER everyone WITH PASSWORD 'guest';" -U postgres 
+echo 'done making user'
 
 export DJANGO_SETTINGS_MODULE=config.settings.ci
 
@@ -72,13 +76,17 @@ fi
 
 # If there is a second argument and it is 'load' execute this block, use 2nd arg of 'noload' to not execute; execute if no second argument
 # Note: These manual database creation and migration steps are performed by loaders/load.py, which is used above in the 'extraload' test block
-if [ ${2:-load} == 'load' ]
+if [ $2 == 'load' ]
 then
     echo "Loading standard data for unit and functional tests..."
-    psql -p $PGPORT -c "DROP DATABASE IF EXISTS stoqs;" -U postgres
-    psql -p $PGPORT -c "CREATE DATABASE stoqs owner=stoqsadm;" -U postgres
-    psql -p $PGPORT -c "CREATE EXTENSION postgis;" -d stoqs -U postgres
-    psql -p $PGPORT -c "CREATE EXTENSION postgis_topology;" -d stoqs -U postgres
+
+    echo "BOOGERS: ${PGPORT} PASSWORD: $1"
+    psql -h stoqs-postgis -p $PGPORT -c "DROP DATABASE IF EXISTS stoqs;" -U postgres 
+    echo 'more booger'
+    psql -h stoqs-postgis -p $PGPORT -c "CREATE DATABASE stoqs owner=postgres;" -U postgres
+    echo 'I make database'
+    psql -h stoqs-postgis -p $PGPORT -c "CREATE EXTENSION postgis;" -d stoqs -U postgres
+    psql -h stoqs-postgis -p $PGPORT -c "CREATE EXTENSION postgis_topology;" -d stoqs -U postgres
     if [ $? != 0 ]
     then
         echo "Cannot create default database stoqs; refer to above message."

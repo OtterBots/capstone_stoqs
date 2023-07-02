@@ -49,7 +49,10 @@ RUN apt-get update && \
     && locale-gen en_US.UTF-8
 
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
-
+ENV DATABASE_URL=postgis://${STOQSADM_USER}:${STOQSADM_PASSWORD}@${STOQS_PGHOST}:${STOQS_PGHOST_PORT}/stoqs
+ENV DATABASE_SUPERUSER_URL=postgis://postgres:${POSTGRES_PASSWORD}@${STOQS_PGHOST}:${STOQS_PGHOST_PORT}/stoqs
+ENV PGHOST=${STOQS_PGHOST}
+ENV MAPSERVER_HOST=${MAPSERV_SERVER_NAME}
 # To fix multiprocessing-permission-denied for docker-compose execution
 RUN echo 'none /dev/shm tmpfs rw,nosuid,nodev,noexec 0 0' > /etc/fstab
 
