@@ -1,19 +1,17 @@
 #!/bin/bash
 
 STOQS_SRVHOME=/srv
-#STOQS_SRVPROJ=/srv/stoqs
-STOQS_SRVPROJ=/srv/compose/local/stoqs
+STOQS_SRVPROJ=/srv/stoqs
 
 # Ensure that stoqs-postgis container is serving databases before continuing
-POSTGRES_DB=postgres python ${STOQS_SRVHOME}/compose/local/stoqs/database-check.py > /dev/null 2>&1
+POSTGRES_DB=postgres python compose/local/stoqs/database-check.py > /dev/null 2>&1
 while [[ $? != 0 ]] ; do
     sleep 5; echo "*** Waiting for postgis container ..."
-    POSTGRES_DB=postgres python ${STOQS_SRVHOME}/compose/local/stoqs/database-check.py > /dev/null 2>&1
+    POSTGRES_DB=postgres python compose/local/stoqs/database-check.py > /dev/null 2>&1
 done
 
 # Allow for psql execution (used for database creation) without a password
-echo ${PGHOST}:\*:\*:postgres:${POSTGRES_PASSWORD} > /root/.pgpass &&\
-    chmod 600 /root/.pgpass
+echo ${PGHOST}:\*:\*:postgres:${POSTGRES_PASSWORD} > /root/.pgpass && chmod 600 /root/.pgpass
 
 export PYTHONPATH="${STOQS_SRVPROJ}:${PYTHONPATH}"
 
@@ -47,12 +45,12 @@ chmod 777 ${MAPFILE_DIR}
 
 # If default stoqs database doesn't exist then load it - also running the unit and functional tests
 echo "Checking for presence of stoqs database..."
-POSTGRES_DB=stoqs python ${STOQS_SRVHOME}/docker/database-check.py
+POSTGRES_DB=stoqs python ${STOQS_SRVHOME}/database-check.py
 if [[ $? != 0 ]]; then
     echo "Creating default stoqs database and running tests..."
     #./test.sh changeme load noextraload
     # sub env variable for password
-    ./test.sh ${POSTGRES_PASSWORD} load noextraload
+    compose/local/stoqs/test.sh ${POSTGRES_PASSWORD} load noextraload
 fi
 
 if [[ ! -z $CAMPAIGNS_MODULE ]]; then
