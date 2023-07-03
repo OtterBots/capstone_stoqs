@@ -72,7 +72,7 @@ fi
 if [ "$PRODUCTION" == "false" ]; then
     export MAPSERVER_SCHEME=http
     echo "Starting development server with DATABASE_URL=${DATABASE_URL}..."
-    ${STOQS_SRVPROJ}/manage.py runserver 0.0.0.0:8000 --settings=config.settings.local
+    ${STOQS_SRVHOME}/manage.py runserver 0.0.0.0:8000 --settings=config.settings.local
 else
     echo "Starting production server with DATABASE_URL=${DATABASE_URL}..."
     # For testing on port 8000 before certificate is in place make a security exception in your browser
