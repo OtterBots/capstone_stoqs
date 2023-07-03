@@ -1,5 +1,5 @@
-#FROM osgeo/gdal:ubuntu-small-3.6.0
-FROM python:3.11.4-slim-bullseye as python
+FROM osgeo/gdal:ubuntu-small-3.6.0
+#FROM python:3.11.4-slim-bullseye as python
 
 
 #MAINTAINER Mike McCann <mccann@mbari.org>
@@ -41,7 +41,8 @@ RUN apt-get update && \
     locales \
     libxml2-dev \
     libxslt-dev \
-    python-dev \
+    #python-dev \
+    python3-dev \
     postgresql-client \
     time \
     g++ \
