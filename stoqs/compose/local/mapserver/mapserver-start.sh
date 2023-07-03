@@ -9,4 +9,4 @@ trap 'exit' ERR
 set -E
 
 service fcgiwrap start
-nginx -g "daemon off;"
+#nginx -g "daemon off;"
