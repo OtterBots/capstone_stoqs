@@ -6,7 +6,8 @@ from pathlib import Path
 import environ
 from email.utils import getaddresses
 
-BASE_DIR = environ.Path(__file__).resolve(strict=True).parent.parent.parent
+BASE_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
+
 # stoqs/
 APPS_DIR = BASE_DIR / "stoqs"
 env = environ.Env()

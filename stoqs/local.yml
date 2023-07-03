@@ -46,6 +46,7 @@ services:
     ##  - "8000:8000"
     restart: always
     env_file:
+      - ./.envs/.local/.django
       - ./.env
 
   # django:
