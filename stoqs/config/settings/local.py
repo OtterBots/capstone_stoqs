@@ -41,7 +41,8 @@ TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 # django-debug-toolbar
 # ------------------------------------------------------------------------------
 # https://django-debug-toolbar.readthedocs.io/en/latest/installation.html#prerequisites
-INSTALLED_APPS +=  ('django_extensions', ) # noqa: F405
+# This was declared 3 times. Causing duplicate error not sure where it should be commenting out for now
+#INSTALLED_APPS +=  ('django_extensions', ) # noqa: F405
 # https://django-debug-toolbar.readthedocs.io/en/latest/installation.html#middleware
 MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]  # noqa: F405
 # https://django-debug-toolbar.readthedocs.io/en/latest/configuration.html#debug-toolbar-config
