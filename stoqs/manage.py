@@ -25,7 +25,7 @@ if __name__ == "__main__":
 
     # This allows easy placement of apps within the interior
     # stoqs directory.
-    current_path = Path(__file__).parent.resolve()
+    current_path = Path(__file__).resolve()
     sys.path.append(str(current_path / "stoqs"))
 
     execute_from_command_line(sys.argv)

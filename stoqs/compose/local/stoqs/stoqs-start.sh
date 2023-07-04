@@ -23,14 +23,14 @@ fi
 
 #Commenting this out because we are not production
 # Volume shared with nginx for writing Matplotlib-generated images
-#if [ "$PRODUCTION" == "true" ]; then
-#    echo "Checking for presence of ${MEDIA_ROOT}/sections..."
-#    if [[ ! -e ${MEDIA_ROOT}/sections ]]; then
-#        echo "Creating directories for image generation and serving by nginx..."
-#        mkdir -p ${MEDIA_ROOT}/sections ${MEDIA_ROOT}/parameterparameter
-#        chmod 733 ${MEDIA_ROOT}/sections ${MEDIA_ROOT}/parameterparameter
-#    fi
-#fi
+if [ "$PRODUCTION" == "true" ]; then
+   echo "Checking for presence of ${MEDIA_ROOT}/sections..."
+   if [[ ! -e ${MEDIA_ROOT}/sections ]]; then
+       echo "Creating directories for image generation and serving by nginx..."
+       mkdir -p ${MEDIA_ROOT}/sections ${MEDIA_ROOT}/parameterparameter
+       chmod 733 ${MEDIA_ROOT}/sections ${MEDIA_ROOT}/parameterparameter
+   fi
+fi
 
 #Let this thing make the directory for us
 
@@ -72,7 +72,7 @@ fi
 if [ "$PRODUCTION" == "false" ]; then
     export MAPSERVER_SCHEME=http
     echo "Starting development server with DATABASE_URL=${DATABASE_URL}..."
-    ${STOQS_SRVPROJ}/manage.py runserver 0.0.0.0:8000 --settings=config.settings.local
+    ${STOQS_SRVHOME}/manage.py runserver 0.0.0.0:8000 --settings=config.settings.local
 else
     echo "Starting production server with DATABASE_URL=${DATABASE_URL}..."
     # For testing on port 8000 before certificate is in place make a security exception in your browser
