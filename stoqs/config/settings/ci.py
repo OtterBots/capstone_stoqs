@@ -53,6 +53,7 @@ DEBUG_TOOLBAR_CONFIG = {
 
 # django-extensions
 # ------------------------------------------------------------------------------
+# I think this is declared twice  in local.py maybe causing duplicate err0r
 #INSTALLED_APPS += ('django_extensions', )
 
 # TESTING
