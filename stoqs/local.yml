@@ -159,3 +159,8 @@ services:
     restart: always
     env_file:
       - ./.env
+    command: 
+       - /bin/bash
+       - -c
+       - |
+          exec nginx -g 'daemon off;'
