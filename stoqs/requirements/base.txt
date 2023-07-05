@@ -18,12 +18,12 @@ django-configurations==2.4.1
 django-cors-headers==4.1.0  # https://github.com/adamchainz/django-cors-headers
 django-crispy-forms==2.0  # https://github.com/django-crispy-forms/django-crispy-forms
 crispy-bootstrap5==0.7  # https://github.com/django-crispy-forms/crispy-bootstrap5
-#django-debug-toolbar==3.8.1
+django-debug-toolbar==3.8.1
 django-environ==0.10.0
 djangorestframework==3.14.0  # https://github.com/encode/django-rest-framework
 django-model-utils==4.3.1
 # Using v 3.2.3 in development.txt
-#django-extensions==3.2.1
+django-extensions==3.2.1
 django-picklefield==3.1
 django-redis==5.3.0  # https://github.com/jazzband/django-redis
 drf-spectacular==0.26.2  # https://github.com/tfranzel/drf-spectacular
