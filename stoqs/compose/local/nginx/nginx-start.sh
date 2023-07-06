@@ -13,4 +13,4 @@ if [ -z "$NGINX_SERVER_NAME" ]; then
   export NGINX_KEY_NAME=localhost
 fi
 
-envsubst < ${NGINX_TMPL} > /etc/nginx/stoqs_nginx.conf
+envsubst < ${NGINX_TMPL} > /etc/nginx/nginx.conf
