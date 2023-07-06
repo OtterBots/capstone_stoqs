@@ -12,4 +12,5 @@ if [ -z "$NGINX_SERVER_NAME" ]; then
   export NGINX_CRT_NAME=localhost
   export NGINX_KEY_NAME=localhost
 fi
-DOLLAR='$' envsubst < ${NGINX_TMPL} > /etc/nginx/stoqs_nginx.conf
+
+envsubst < ${NGINX_TMPL} > /etc/nginx/stoqs_nginx.conf
