@@ -2,7 +2,7 @@ FROM mapserver/mapserver:v7.4.2
 
 USER root
 
-# Install the build dependencies
+# Installing the build dependencies
 RUN apt-get update -y && apt-get install -y libfcgi-dev fcgiwrap nginx
 
 # Remove the default Nginx configuration
@@ -18,7 +18,7 @@ RUN ln -s /etc/nginx/sites-available/mapserver /etc/nginx/sites-enabled/mapserve
 COPY ./compose/local/mapserver/mapserver-start.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/mapserver-start.sh
 
-# Expose port 80 for Nginx
+# Exposing port 80 for Nginx
 EXPOSE 80
 
 # Start the fcgi and web servers
