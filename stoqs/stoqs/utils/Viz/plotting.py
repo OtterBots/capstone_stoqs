@@ -23,7 +23,7 @@ from collections import namedtuple
 from django.conf import settings
 from django.db import connections, DatabaseError, transaction
 from datetime import datetime
-from stoqs import models
+from stoqs.stoqs import models
 from utils.utils import pearsonr, round_to_n, EPOCH_STRING
 from loaders.SampleLoaders import SAMPLED, NETTOW, VERTICALNETTOW, PLANKTONPUMP, ESP_FILTERING
 from loaders import MEASUREDINSITU, X3DPLATFORMMODEL, X3D_MODEL, X3D_MODEL_SCALEFACTOR

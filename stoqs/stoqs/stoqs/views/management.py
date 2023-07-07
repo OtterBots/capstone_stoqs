@@ -28,7 +28,7 @@ from django.conf import settings
 from django.db import DatabaseError, connections
 from django.http import HttpResponse
 from utils import encoders
-import stoqs.models as mod
+import stoqs.stoqs.models as mod
 from datetime import datetime, timedelta
 import socket
 import logging
