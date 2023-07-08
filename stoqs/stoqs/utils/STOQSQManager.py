@@ -28,7 +28,7 @@ from django.contrib.gis.geos import fromstr, MultiPoint, Point
 from django.db.utils import DatabaseError, DataError
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
-from stoqs import models
+from stoqs.stoqs import models
 from loaders import MEASUREDINSITU, X3DPLATFORMMODEL, X3D_MODEL
 from loaders.SampleLoaders import SAMPLED, NETTOW, PLANKTONPUMP, ESP_FILTERING, sample_simplify_crit, SAMPLE_TYPES
 from matplotlib.colors import rgb2hex

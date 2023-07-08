@@ -7,7 +7,7 @@ import environ
 from email.utils import getaddresses
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
-
+ROOT_DIR = environ.Path(__file__) - 3  # (/a/b/myfile.py - 3 = /)
 # stoqs/
 APPS_DIR = BASE_DIR / "stoqs"
 env = environ.Env()
@@ -248,7 +248,7 @@ TEMPLATES = [
         # https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-TEMPLATES-BACKEND
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         # https://docs.djangoproject.com/en/dev/ref/settings/#dirs
-        "DIRS": [str(APPS_DIR / "templates")],
+        "DIRS": [str(APPS_DIR / "templates/stoqs"), str(APPS_DIR / "templates")],
         # https://docs.djangoproject.com/en/dev/ref/settings/#app-dirs
         "APP_DIRS": True,
         "OPTIONS": {

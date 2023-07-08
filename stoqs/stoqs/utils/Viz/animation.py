@@ -14,7 +14,7 @@ from datetime import datetime
 from itertools import zip_longest
 from loaders import X3DPLATFORMMODEL, X3D_MODEL, X3D_MODEL_SCALEFACTOR
 from matplotlib.colors import hex2color
-from stoqs import models
+from stoqs.stoqs import models
 
 PA_MAX_POINTS = 10000000       # Set to avoid memory error on development system
 
