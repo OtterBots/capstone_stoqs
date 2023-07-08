@@ -7,7 +7,7 @@ ADD compose/local/nginx/nginx-start.sh /
 RUN chmod +x nginx-start.sh
 
 # Add nginx config file
-ADD ${NGINX_TMPL} /nginx.tmpl
+ADD ${NGINX_TMPL} /
 
 # Add SSL certs to location specified in nginx.conf
 ADD *.crt /etc/ssl/certs/
