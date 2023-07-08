@@ -65,12 +65,5 @@ COPY compose/local/stoqs/docker-stoqs-uwsgi.ini /etc/uwsgi/django-uwsgi.ini
 # For functional tests and running development/debug/ci
 COPY compose/local/stoqs/stoqs-start-run_server.sh /
 RUN chmod +x /stoqs-start-run_server.sh
-COPY compose/local/stoqs/stoqs-start.sh /stoqs-start.sh
-
-
-# Make the script executable
-RUN chmod +x /stoqs-start.sh
-
-# Change the CMD to execute the stoqs-start.sh script
 
 CMD ["compose/local/stoqs/stoqs-start.sh"]
