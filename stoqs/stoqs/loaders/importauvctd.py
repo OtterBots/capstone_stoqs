@@ -1,7 +1,7 @@
 from loaders import dataloaders as dl
 from BeautifulSoup import BeautifulSoup
 import urllib.request, urllib.error, urllib.parse
-from stoqs import models as m
+from stoqs.stoqs import models as m
 urllist=[]
 base_url='http://dods.mbari.org/opendap/data/auvctd/surveys/%(year)s/netcdf/'
 ##for year in range(2003, 2011):

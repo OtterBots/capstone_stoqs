@@ -48,7 +48,7 @@ from django.contrib.gis.geos import Point
 from django.db.models import Avg, Max
 from collections import defaultdict, OrderedDict
 from loaders.SampleLoaders import PLANKTONPUMP
-from stoqs.models import Activity, Sample, InstantPoint, ActivityType, Campaign, Platform, SampleType, SamplePurpose, PlatformType
+from stoqs.stoqs.models import Activity, Sample, InstantPoint, ActivityType, Campaign, Platform, SampleType, SamplePurpose, PlatformType
 
 class PlanktonPump():
     '''Data and methods to support Plankton Pump Sample data loading

@@ -21,7 +21,7 @@ from django.conf import settings
 from django.core import serializers
 
 import json
-import stoqs.models as mod
+import stoqs.stoqs.models as mod
 import csv
 import logging
 import os

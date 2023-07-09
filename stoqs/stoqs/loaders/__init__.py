@@ -22,7 +22,7 @@ from django.contrib.gis.geos import Polygon, Point
 from django.db.utils import IntegrityError
 from django.db import transaction, DatabaseError, connections
 from django.db.models import Max, Min
-from stoqs import models as m
+from stoqs.stoqs import models as m
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned

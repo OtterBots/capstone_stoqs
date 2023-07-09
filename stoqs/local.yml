@@ -32,8 +32,8 @@ services:
       - STATIC_ROOT=/srv/static-files
       - MEDIA_URL=/media/
       - MEDIA_ROOT=/srv/media-files
-       - NGINX_SERVER_NAME=${NGINX_SERVER_NAME}
-       - UWSGI_READ_TIMEOUT=${UWSGI_READ_TIMEOUT}
+      - NGINX_SERVER_NAME=${NGINX_SERVER_NAME}
+      - UWSGI_READ_TIMEOUT=${UWSGI_READ_TIMEOUT}
       - DJANGO_DEBUG=${DJANGO_DEBUG}
       - USER=${USER}
     container_name: stoqs
@@ -41,30 +41,13 @@ services:
       - mapserver
       - postgis
     ports:
-      - "8888:8888"
-    # Expose port 8000 if PRODUCTION=false - Note: PRODUCTION=false doesn't work (March 2019)
-    ##  - "8000:8000"
+      # - "8888:8888"
+      # Expose port 8000 if PRODUCTION=false - Note: PRODUCTION=false doesn't work (March 2019)
+      - "8000:8000"
     restart: always
     env_file:
       - ./.envs/.local/.django
       - ./.env
-
-  # django:
-  #   build:
-  #     context: .
-  #     dockerfile: ./compose/local/django/Dockerfile
-  #   image: stoqs_local_django
-  #   container_name: stoqs_local_django
-  #   depends_on:
-  #     - postgres
-  #   volumes:
-  #     - .:/app:z
-  #   env_file:
-  #     - ./.envs/.local/.django
-  #     - ./.envs/.local/.postgres
-  #   ports:
-  #     - "8000:8000"
-  #   command: /start
 
   postgis:
     image: mbari/stoqs-postgis
@@ -74,12 +57,12 @@ services:
     volumes:
       - ${POSTGRES_DATA}:/var/lib/postgresql/data
       - ${POSTGRES_WALDIR}:/var/lib/postgresql/waldir
-      - ./postgres15-stoqs.conf:/etc/postgresql.conf
+      - ./compose/production/postgres/postgres15-stoqs.conf:/etc/postgresql.conf
     command: postgres -c config_file=/etc/postgresql.conf
     ports:
       - "${STOQS_PGHOST_PORT}:5432"
     # Set user for deployment on MacOS, assign HOST_UID=<result of `id -u`> in your .env file
-    ##user: ${HOST_UID}
+    # user: ${HOST_UID}
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - STOQSADM_PASSWORD=${STOQSADM_PASSWORD}
@@ -93,18 +76,6 @@ services:
     env_file:
       - ./.env
 
-  # postgres:
-  #   build:
-  #     context: .
-  #     dockerfile: ./compose/production/postgres/Dockerfile
-  #   image: stoqs_production_postgres
-  #   container_name: stoqs_local_postgres
-  #   volumes:
-  #     - stoqs_local_postgres_data:/var/lib/postgresql/data
-  #     - stoqs_local_postgres_data_backups:/backups
-  #   env_file:
-  #     - ./.envs/.local/.postgres
-
   mapserver:
     image: mbari/stoqs-mapserver
     build:
@@ -114,27 +85,11 @@ services:
       - ${STOQS_VOLS_DIR}/maps:${URL_MAPFILE_DIR}:ro
     container_name: stoqs-mapserver
     # Expose port 80 if PRODUCTION=false - Note: PRODUCTION=false doesn't work (March 2019)
-    ##ports:
-    ##  - "80:80"
+    ports:
+      - "80:80"
     restart: always
     env_file:
       - ./.env
-
-  # docs:
-  #   image: stoqs_local_docs
-  #   container_name: stoqs_local_docs
-  #   build:
-  #     context: .
-  #     dockerfile: ./compose/local/docs/Dockerfile
-  #   env_file:
-  #     - ./.envs/.local/.django
-  #   volumes:
-  #     - ./docs:/docs:z
-  #     - ./config:/app/config:z
-  #     - ./stoqs:/app/stoqs:z
-  #   ports:
-  #     - "9000:9000"
-  #   command: /start-docs
 
   # Disable nginx service if PRODUCTION=false - Note: PRODUCTION=false doesn't work (March 2019)
   nginx:
@@ -151,12 +106,11 @@ services:
       - NGINX_TMPL
     container_name: stoqs-nginx
     ports:
-      - "80:80"
-      - "8000:8000"
+      # - "80:80"
+      # - "8000:8000"
       - "443:443"
     depends_on:
       - stoqs
     restart: always
     env_file:
       - ./.env
-

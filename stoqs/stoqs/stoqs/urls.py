@@ -4,8 +4,8 @@
 from django.conf import settings
 from django.urls import re_path
 from django.conf.urls.static import static
-from stoqs.views.wms import showActivityWMS, showActivitiesWMS, showParametersWMS, showPlatformsWMS
-from stoqs.views import (showActivityResource, showActivityParameter, showActivityType,
+from stoqs.stoqs.views.wms import showActivityWMS, showActivitiesWMS, showParametersWMS, showPlatformsWMS
+from stoqs.stoqs.views import (showActivityResource, showActivityParameter, showActivityType,
                          showActivity, showAnalysisMethod, showCampaignResource,
                          showCampaign, showInstantPoint, showMeasuredParameterResource,
                          showMeasurement, showParameterGroupParameter, showParameterGroup,
@@ -13,13 +13,13 @@ from stoqs.views import (showActivityResource, showActivityParameter, showActivi
                          showPlatformType, showPlatform, showResourceResource,
                          showResourceType, showResource, showSampleType, showSamplePurpose,
                          showSampleResource, showSample, showSimpleDepthTime, showNominalLocation)
-from stoqs.views.app import (showMeasuredParameter, showSampledParameter,
+from stoqs.stoqs.views.app import (showMeasuredParameter, showSampledParameter,
                              showActivityParameterHistogram, showResourceActivity,
                              showSampleDT, showQuickLookPlots)
-from stoqs.views.query import queryData, queryMap, queryUI
-from stoqs.views.management import showCampaigns, showDatabase, showActivitiesMBARICustom
-from stoqs.views.permalinks import generate_permalink, load_permalink
-from stoqs.views.parameterinfo import parameterinfo
+from stoqs.stoqs.views.query import queryData, queryMap, queryUI
+from stoqs.stoqs.views.management import showCampaigns, showDatabase, showActivitiesMBARICustom
+from stoqs.stoqs.views.permalinks import generate_permalink, load_permalink
+from stoqs.stoqs.views.parameterinfo import parameterinfo
 
 app_name = 'stoqs'
 
