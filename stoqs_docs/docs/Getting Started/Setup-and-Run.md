@@ -1,6 +1,6 @@
 ## Installation from terminal (for base cookiecutter-django project)
 
-View [cookie_config.txt](cookie_config.txt) file for settings used.
+View [cookie_config.txt](../../../cookie_config.txt) file for settings used.
 
 1. Clone repo (your ssh should already be setup):
 ```git clone git@github.com:OtterBots/capstone_stoqs.git```
