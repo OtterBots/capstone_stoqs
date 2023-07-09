@@ -13,3 +13,5 @@ if [ -z "$NGINX_SERVER_NAME" ]; then
   export NGINX_KEY_NAME=localhost
 fi
 envsubst < ${NGINX_TMPL} > /etc/nginx/nginx.conf
+
+nginx -g "daemon off;"
