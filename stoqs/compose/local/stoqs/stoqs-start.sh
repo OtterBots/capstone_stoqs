@@ -72,6 +72,7 @@ fi
 if [ "$PRODUCTION" == "false" ]; then
     export MAPSERVER_SCHEME=http
     echo "Starting development server with DATABASE_URL=${DATABASE_URL}..."
+    python manage.py collectstatic --noinput -v 0
     ${STOQS_SRVHOME}/manage.py runserver 0.0.0.0:8000 --settings=config.settings.local
 else
     echo "Starting production server with DATABASE_URL=${DATABASE_URL}..."
