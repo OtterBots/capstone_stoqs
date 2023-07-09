@@ -16,7 +16,7 @@ the danger here.
 from django.core.exceptions import ObjectDoesNotExist, SuspiciousOperation
 from django.http import Http404
 from django.http import HttpResponse
-from stoqs import models
+from stoqs.stoqs import models
 import logging
 from django.views.decorators.csrf import csrf_exempt
 import simplejson as json

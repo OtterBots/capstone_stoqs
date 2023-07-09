@@ -1,0 +1,26 @@
+FROM mapserver/mapserver:v7.4.2
+
+USER root
+
+# Installing the build dependencies
+RUN apt-get update -y && apt-get install -y libfcgi-dev fcgiwrap nginx
+
+# Remove the default Nginx configuration
+RUN rm /etc/nginx/sites-enabled/default
+
+# Copy the mapserver.tmpl file to Nginx configuration directory
+COPY ./compose/local/mapserver/mapserver.tmpl /etc/nginx/sites-available/mapserver
+
+# Create a symbolic link to enable the mapserver configuration
+RUN ln -s /etc/nginx/sites-available/mapserver /etc/nginx/sites-enabled/mapserver
+
+# Set up the run script for starting services
+COPY ./compose/local/mapserver/mapserver-start.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/mapserver-start.sh
+
+# Exposing port 80 for Nginx
+EXPOSE 80
+
+# Start the fcgi and web servers
+CMD ["/usr/local/bin/mapserver-start.sh"]
+

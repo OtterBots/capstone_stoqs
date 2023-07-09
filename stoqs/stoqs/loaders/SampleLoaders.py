@@ -20,7 +20,7 @@ from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned, 
 from django.db.models import Q, Min, Max, Avg
 from django.db.utils import IntegrityError, DataError
 
-from stoqs.models import (Activity, InstantPoint, Sample, SampleType, Resource,
+from stoqs.stoqs.models import (Activity, InstantPoint, Sample, SampleType, Resource,
                           SamplePurpose, SampleRelationship, Parameter, SampledParameter,
                           MeasuredParameter, AnalysisMethod, Measurement, Campaign,
                           Platform, PlatformType, ActivityType, ActivityResource,

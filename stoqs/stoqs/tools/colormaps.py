@@ -57,7 +57,7 @@ for cmap_category, cmap_list in cmaps:
     cmap_list_r.extend(['{}_r'.format(c) for c in cmap_list])
     cmaps_with_r.append((cmap_category, cmap_list_r))
 
-jetplus_clt = readCLT(os.path.join(str(settings.ROOT_DIR.path('static')), 
+jetplus_clt = readCLT(os.path.join(str(settings.ROOT_DIR.path('stoqs/static')), 
                                    'colormaps', 'jetplus.txt'))
 
 def _plot_color_bar(category, cmap):
@@ -81,7 +81,7 @@ def _plot_color_bar(category, cmap):
             cb_ax.imshow(gradient, aspect='auto', cmap=plt.get_cmap(cmap))
 
     cb_ax.set_axis_off()
-    file_name = os.path.join(str(settings.ROOT_DIR.path('static')), 'images', 'colormaps', cmap)
+    file_name = os.path.join(str(settings.ROOT_DIR.path('stoqs/static')), 'images', 'colormaps', cmap)
     cb_fig.savefig(file_name, dpi=100)
     plt.close()
 

@@ -16,6 +16,7 @@ urlpatterns = [
     path("users/", include("stoqs.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
+    path("stoqs/", include("stoqs.stoqs.urls", namespace="stoqs")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # API URLS
