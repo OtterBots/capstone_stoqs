@@ -10,7 +10,7 @@ from django.db.models import Max, Min
 from collections import defaultdict, namedtuple
 from datetime import datetime
 from loaders import STOQS_Loader
-from stoqs.models import (Activity, ResourceType, Resource, Measurement, MeasuredParameter,
+from stoqs.stoqs.models import (Activity, ResourceType, Resource, Measurement, MeasuredParameter,
                           MeasuredParameterResource, ResourceResource, Campaign,
                           SimpleDepthTime, ActivityType)
 from utils.STOQSQManager import LABEL, DESCRIPTION, LRAUV_MISSION

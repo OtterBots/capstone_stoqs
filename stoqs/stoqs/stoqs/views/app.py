@@ -1,8 +1,8 @@
 from django.views.decorators.cache import cache_page
 from django.template import RequestContext
 from django.shortcuts import render
-import stoqs.models as mod
-from stoqs.views import BaseOutputer, EmptyQuerySetException
+import stoqs.stoqs.models as mod
+from stoqs.stoqs.views import BaseOutputer, EmptyQuerySetException
 from django.http import HttpResponse
 __author__ = 'Mike McCann'
 __copyright__ = '2011'
