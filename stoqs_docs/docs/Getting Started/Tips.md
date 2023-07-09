@@ -14,13 +14,17 @@ FROM osgeo/gdal:ubuntu-small-3.6.0
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONUNBUFFERED=1
 ```
+---
 
-2. Quickly destroy all containers and images
+### Quickly destroy all containers and images
 - Destroy containers:
+
 ``` 
 docker rm $(docker ps -a | cut -d' ' -f1 | grep -v CONTAINER | xargs) 
 ```
+
 - Destroy images:
+
 ```
 docker rmi $(docker images | awk {'print $3'} | grep -v IMAGE | xargs)
 ```
