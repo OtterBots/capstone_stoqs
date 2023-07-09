@@ -11,6 +11,7 @@ This is still under investigation with no path to resolution
 
 ## STOQS
 One of the stoqs dependencies is a package called libgeos which when installed on an arm host (Apple M1-2) will install into an `aarch64` directory as opposed to the `x86` directory when built on an x86 host. 
+
 - Refer to `.env` file. Uncomment and comment the paths based on your system
 
 ``` bash linenums="90"
