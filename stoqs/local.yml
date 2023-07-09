@@ -103,7 +103,7 @@ services:
       - static-files:/srv/static-files
       - media-files:/srv/media-files
     environment:
-      - NGINX_TMPL=${NGINX_TMPL}
+      - NGINX_TMPL
     container_name: stoqs-nginx
     ports:
       # - "80:80"
