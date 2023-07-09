@@ -28,3 +28,17 @@ docker rm $(docker ps -a | cut -d' ' -f1 | grep -v CONTAINER | xargs)
 ```
 docker rmi $(docker images | awk {'print $3'} | grep -v IMAGE | xargs)
 ```
+---
+### Postgres and datagrip or any data munging software for that matter
+- The port of the postgress container is exposed in the local.yml file allowing you to connect to the database from localhost:5432 to explore the db.
+    - Default username and password are defined in `.env` current settings are:
+        - Name: stoqsadm
+        - Pw:   CHANGEME
+
+``` yaml linenums="61" hl_lines="3"
+command: postgres -c config_file=/etc/postgresql.conf
+ports:
+  - "${STOQS_PGHOST_PORT}:5432"
+# Set user for deployment on MacOS, assign HOST_UID=<result of `id -u`> in your .env file
+# user: ${HOST_UID}
+```
