@@ -24,6 +24,7 @@ theme:
     - navigation.instant
     - navigation.top
     - toc.follow
+    - content.code.copy
   icon:
     admonition:
       note: octicons/tag-16
