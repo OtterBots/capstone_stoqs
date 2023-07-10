@@ -98,7 +98,7 @@ then
     psql -p $PGPORT -c "GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO stoqsadm;" -U postgres -d stoqs
 
     echo "Copy x3dom javascript library version that works with SRC binary terrain"
-    mkdir stoqs/static/x3dom-1.8.1
+    mkdir -p stoqs/static/x3dom-1.8.1
     wget --no-check-certificate -O stoqs/static/x3dom-1.8.1/x3dom-full.debug.js https://stoqs.mbari.org/static/x3dom-1.8.1/x3dom-full.debug.js
 
     # Get bathymetry and load data from MBARI data servers
