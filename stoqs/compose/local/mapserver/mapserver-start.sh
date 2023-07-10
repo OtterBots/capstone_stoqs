@@ -9,4 +9,6 @@ trap 'exit' ERR
 set -E
 
 service fcgiwrap start
+
+# turning off daemon
 nginx -g "daemon off;"

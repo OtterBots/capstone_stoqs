@@ -6,7 +6,7 @@ FROM osgeo/gdal:ubuntu-small-3.6.0
 ENV PYTHONUNBUFERED=1
 
 ENV DEBIAN_FRONTEND=noninteractive
-
+ENV PYTHONUNBUFFERED=1
 # Inlined FROM pcic/geospatial-python
 RUN apt-get update && \
     apt-get -yq install \

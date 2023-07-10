@@ -1,5 +1,5 @@
 FROM docker.io/nginx:1.13
-
+USER  root
 ARG NGINX_TMPL
 
 # Add start script
@@ -7,7 +7,10 @@ ADD compose/local/nginx/nginx-start.sh /
 RUN chmod +x nginx-start.sh
 
 # Add nginx config file
-ADD ${NGINX_TMPL} /
+
+#THIS THING CANT EXPAND ${NGINX_TMPL} properly for some reason. SHould look into it later. For now I've hard coded the path to the template
+ADD compose/local/nginx/nginx.tmpl /
+
 
 # Add SSL certs to location specified in nginx.conf
 ADD compose/local/nginx/*.crt /etc/ssl/certs/
