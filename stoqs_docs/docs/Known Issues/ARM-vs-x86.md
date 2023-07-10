@@ -8,6 +8,17 @@ Fail!
 Exit code 1
 ```
 This is still under investigation with no path to resolution
+> Potential workaround found. Found another mapserver image on dockerhub that is tagged with arm64. Comment out and uncomment the lines as necessary in `Dockerfile-mapserver`
+
+``` yaml linenums="1" 
+#FROM mapserver/mapserver:v7.4.2
+FROM camptocamp/mapserver:542-arm64
+USER root
+
+# Installing the build dependencies
+RUN apt-get update -y && apt-get install -y libfcgi-dev fcgiwrap nginx
+
+```
 
 ## STOQS
 One of the stoqs dependencies is a package called libgeos which when installed on an arm host (Apple M1-2) will install into an `aarch64` directory as opposed to the `x86` directory when built on an x86 host. 
