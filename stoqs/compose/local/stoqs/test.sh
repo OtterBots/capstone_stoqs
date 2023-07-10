@@ -98,22 +98,22 @@ then
     psql -p $PGPORT -c "GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO stoqsadm;" -U postgres -d stoqs
 
     echo "Copy x3dom javascript library version that works with SRC binary terrain"
-    mkdir static/x3dom-1.8.1
-    wget --no-check-certificate -O static/x3dom-1.8.1/x3dom-full.debug.js https://stoqs.mbari.org/static/x3dom-1.8.1/x3dom-full.debug.js
+    mkdir stoqs/static/x3dom-1.8.1
+    wget --no-check-certificate -O stoqs/static/x3dom-1.8.1/x3dom-full.debug.js https://stoqs.mbari.org/static/x3dom-1.8.1/x3dom-full.debug.js
 
     # Get bathymetry and load data from MBARI data servers
-    wget --no-check-certificate -O loaders/Monterey25.grd https://stoqs.mbari.org/terrain/Monterey25.grd
-    coverage run --include="loaders/__in*,loaders/DAP*,loaders/Samp*" loaders/loadTestData.py
+    wget --no-check-certificate -O stoqs/loaders/Monterey25.grd https://stoqs.mbari.org/terrain/Monterey25.grd
+    coverage run --include="stoqs/loaders/__in*,stoqs/loaders/DAP*,stoqs/loaders/Samp*" stoqs/loaders/loadTestData.py
     if [ $? != 0 ]
     then
-        echo "loaders/loadTestData.py failed to load initial database; exiting test.sh."
+        echo "stoqs/loaders/loadTestData.py failed to load initial database; exiting test.sh."
         exit -1
     fi
 
-    coverage run --include="loaders/__in*,loaders/DAP*,loaders/Samp*" loaders/loadMoreData.py --append
+    coverage run --include="stoqs/loaders/__in*,stoqs/loaders/DAP*,stoqs/loaders/Samp*" stoqs/loaders/loadMoreData.py --append
     if [ $? != 0 ]
     then
-        echo "loaders/loadMoreData.py failed to load more data to existing Activity; exiting test.sh."
+        echo "stoqs/loaders/loadMoreData.py failed to load more data to existing Activity; exiting test.sh."
         exit -1
     fi
 

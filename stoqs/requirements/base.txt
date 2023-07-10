@@ -84,3 +84,7 @@ transforms3d==0.4.1
 xarray==2023.1.0
 websocket-client==1.5.3
 whitenoise==6.5.0  # https://github.com/evansd/whitenoise
+
+## ADDING THINGS FOR LoadTestData.py
+django-coverage-plugin
+coverage[toml]

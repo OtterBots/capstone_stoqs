@@ -3,6 +3,8 @@ FROM osgeo/gdal:ubuntu-small-3.6.0
 # Depreciated
 # MAINTAINER Mike McCann <mccann@mbari.org>
 
+ENV PYTHONUNBUFERED=1
+
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Inlined FROM pcic/geospatial-python
