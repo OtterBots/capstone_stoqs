@@ -14,7 +14,8 @@ FROM osgeo/gdal:ubuntu-small-3.6.0
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONUNBUFFERED=1
 ```
----
+
+------
 
 ### Quickly destroy all containers and images
 - Destroy containers:
@@ -28,7 +29,9 @@ docker rm $(docker ps -a | cut -d' ' -f1 | grep -v CONTAINER | xargs)
 ```
 docker rmi $(docker images | awk {'print $3'} | grep -v IMAGE | xargs)
 ```
----
+
+------
+
 ### Postgres and datagrip or any data munging software for that matter
 - The port of the postgress container is exposed in the local.yml file allowing you to connect to the database from localhost:5432 to explore the db.
     - Default username and password are defined in `.env` current settings are:
