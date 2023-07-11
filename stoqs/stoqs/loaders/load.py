@@ -37,7 +37,7 @@ from django.db import transaction, connections, close_old_connections
 from slacker import Slacker
 from stoqs.stoqs.models import ResourceType, Resource, Campaign, CampaignResource, MeasuredParameter, \
                          SampledParameter, Activity, Parameter, Platform
-from loaders.timing import MINUTES
+from stoqs.loaders.timing import MINUTES
 
 def tail(f, n):
     return subprocess.getoutput(f"tail -{n} {f}")
