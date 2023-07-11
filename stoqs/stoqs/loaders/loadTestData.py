@@ -24,13 +24,15 @@ MBARI Dec 28, 2011
 import os
 import datetime
 from CANON import CANONLoader
-import timing
+import stoqs.loaders.timing
+
+print(f'>>>> Path lookie see: {os.path.join(os.path.dirname(__file__), "Monterey25.grd")}')
 
 # Assign input data sources - use locally served x3d terrain data
 cl = CANONLoader('default', 'Initial Test Database',
                     description = 'Post-setup load of a variety of data to use for testing',
                     x3dTerrains = {
-                            '/static/x3d/Monterey25_10x/Monterey25_10x_scene.x3d': {
+                            '/stoqs/static/x3d/Monterey25_10x/Monterey25_10x_scene.x3d': {
                                 'position': '-2822317.31255 -4438600.53640 3786150.85474',
                                 'orientation': '0.89575 -0.31076 -0.31791 1.63772',
                                 'centerOfRotation': '-2711557.94 -4331414.32 3801353.46',
