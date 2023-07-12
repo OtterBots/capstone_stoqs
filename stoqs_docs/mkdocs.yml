@@ -7,7 +7,7 @@ theme:
   # Palette toggle for light mode
   - media: "(prefers-color-scheme: light)"
     scheme: default
-    primary: deep orange
+    primary: cyan
     toggle:
       icon: material/brightness-7
       name: Switch to dark mode
