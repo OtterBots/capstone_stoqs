@@ -36,7 +36,7 @@ from datadiff.tools import assert_equal
 from django.contrib.gis.geos import Point
 from collections import defaultdict, OrderedDict
 from loaders.SampleLoaders import NETTOW, VERTICALNETTOW
-from stoqs.models import Activity, Sample, InstantPoint, ActivityType, Campaign, Platform, SampleType, SamplePurpose, PlatformType
+from stoqs.stoqs.models import Activity, Sample, InstantPoint, ActivityType, Campaign, Platform, SampleType, SamplePurpose, PlatformType
 
 class NetTow():
     '''Data and methods to support Net Tow Sample data loading
