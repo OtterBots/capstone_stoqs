@@ -10,3 +10,17 @@ The objective of this project is to restructure the [stoqs system](https://githu
 ### Problem statement: 
 - The current development version of STOQS is designed to run within a vagrant VM which makes it challenging to easily edit the code with a local IDE and see the changes refreshed live in the browse
 - Django-cookiecutters use of docker containers sharing volumes with the local machine will hopefully make it easier for contributors to get started and make changes to STOQS
+
+### Project Diagram
+
+``` mermaid
+flowchart LR
+    Postgis[(Postgis)]
+    Stoqs["Stoqs"]
+    NGINX["NGINX"]
+    MapServer["Map Server"]
+
+    Postgis --- Stoqs
+    Stoqs --- NGINX
+    NGINX --- MapServer
+```
