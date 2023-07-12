@@ -14,7 +14,7 @@ import sys
 
 # Insert Django App directory (parent of config) into python path 
 sys.path.insert(0, os.path.abspath(os.path.join(
-                        os.path.dirname(__file__), "../../")))
+                        os.path.dirname(__file__), "../../../")))
 if 'DJANGO_SETTINGS_MODULE' not in os.environ:
     os.environ['DJANGO_SETTINGS_MODULE'] = 'config.settings.local'
 # django >=1.7
@@ -32,7 +32,7 @@ import warnings
 from datetime import datetime
 from django.db.utils import IntegrityError
 from textwrap import wrap
-from stoqs.models import (Activity, ResourceType, Resource, Measurement, MeasuredParameter,
+from stoqs.stoqs.models import (Activity, ResourceType, Resource, Measurement, MeasuredParameter,
                           MeasuredParameterResource, ResourceResource)
 from utils.STOQSQManager import LABEL, DESCRIPTION, COMMANDLINE
 
