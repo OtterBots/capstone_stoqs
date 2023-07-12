@@ -1,6 +1,7 @@
 # capstone_stoqs
 CSUMB Otterbots capstone project.
 
+![assets/images/Stoqs.png](assets/images/Stoqs.png)
 ### Description: 
 > STOQS is a geospatial database and web application designed to give oceanographers efficient integrated access to in situ measurement and ex situ sample data. 
 
