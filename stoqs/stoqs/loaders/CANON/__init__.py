@@ -21,7 +21,7 @@ import sys
 
 # Insert Django App directory (parent of config) into python path 
 sys.path.insert(0, os.path.abspath(os.path.join(
-                os.path.dirname(__file__), "../../")))
+                os.path.dirname(__file__), "../../../")))
 if 'DJANGO_SETTINGS_MODULE' not in os.environ:
     os.environ['DJANGO_SETTINGS_MODULE'] = 'config.settings.local'
 # django >=1.7
@@ -41,7 +41,7 @@ from lrauv_support import MissionLoader
 from LRAUV.make_load_scripts import lrauvs
 from bs4 import BeautifulSoup
 from loaders import LoadScript, FileNotFound, SIGMAT, SPICE, SPICINESS, ALTITUDE
-from stoqs.models import InstantPoint
+from stoqs.stoqs.models import InstantPoint
 from django.db.models import Max
 from datetime import datetime, timedelta
 from argparse import Namespace

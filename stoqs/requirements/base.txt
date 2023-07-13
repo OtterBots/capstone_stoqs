@@ -18,7 +18,7 @@ django-configurations==2.4.1
 django-cors-headers==4.1.0  # https://github.com/adamchainz/django-cors-headers
 django-crispy-forms==2.0  # https://github.com/django-crispy-forms/django-crispy-forms
 crispy-bootstrap5==0.7  # https://github.com/django-crispy-forms/crispy-bootstrap5
-django-debug-toolbar==3.8.1
+# django-debug-toolbar==3.8.1
 django-environ==0.10.0
 djangorestframework==3.14.0  # https://github.com/encode/django-rest-framework
 django-model-utils==4.3.1
@@ -84,3 +84,7 @@ transforms3d==0.4.1
 xarray==2023.1.0
 websocket-client==1.5.3
 whitenoise==6.5.0  # https://github.com/evansd/whitenoise
+
+## ADDING THINGS FOR LoadTestData.py
+django-coverage-plugin
+coverage[toml]

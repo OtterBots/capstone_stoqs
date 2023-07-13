@@ -11,7 +11,7 @@ MBARI January 28, 2014
 
 import os
 import sys
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../"))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../../"))
 if 'DJANGO_SETTINGS_MODULE' not in os.environ:
     os.environ['DJANGO_SETTINGS_MODULE'] = 'config.settings.local'
 import django
@@ -20,7 +20,7 @@ django.setup()
 from collections import defaultdict
 from datetime import datetime
 from django.db import connections
-from stoqs.models import Activity, ActivityParameter, ParameterResource, Platform, MeasuredParameter, Parameter
+from stoqs.stoqs.models import Activity, ActivityParameter, ParameterResource, Platform, MeasuredParameter, Parameter
 from django.contrib.gis.db.models import Extent
 from django.contrib.gis.geos import Point
 from django.db.models import Max, Min
