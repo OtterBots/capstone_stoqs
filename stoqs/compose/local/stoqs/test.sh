@@ -129,25 +129,25 @@ then
 
     # Create database fixture
     # path for manage.py
-    /srv/manage.py dumpdata --settings=config.settings.ci stoqs > stoqs/fixtures/stoqs_test_data.json
+    /srv/manage.py dumpdata --settings=config.settings.ci stoqs > stoqs/stoqs/fixtures/stoqs_test_data.json
 fi
 
 # Run tests using the continuous integration (ci) setting
 # Need to create and drop test_ databases using shell account or sa url, hence reassign DATABASE_URL
 echo "Unit tests..."
 DATABASE_URL=$DATABASE_SUPERUSER_URL
-coverage run -a --source=utils,stoqs /srv/manage.py test stoqs.tests.unit_tests --settings=config.settings.ci
+coverage run -a --source=utils,stoqs /srv/manage.py test stoqs.stoqs.tests.unit_tests --settings=config.settings.ci
 unit_tests_status=$?
 
 # Instructions for running functional tests, instead of running them here
 echo "===================================================================================================================="
-echo "Functional tests may be run in a separate session using a different docker-compose yml file..."
+echo "Functional tests may be run in a separate session using a different local yml file..."
 echo "----------------------------------------------------------------------------------------------"
-echo "cd docker"
+# echo "cd docker"
 echo "docker-compose down"
-echo "docker-compose -f docker-compose-ci.yml up -d --build"
-echo "docker-compose -f docker-compose-ci.yml run --rm stoqs /bin/bash"
-echo "DATABASE_URL=\$DATABASE_SUPERUSER_URL stoqs/manage.py test stoqs.tests.functional_tests --settings=config.settings.ci"
+echo "docker-compose -f local-ci.yml up -d --build"
+echo "docker-compose -f local-ci.yml run --rm stoqs /bin/bash"
+echo "DATABASE_URL=\$DATABASE_SUPERUSER_URL stoqs/manage.py test stoqs.stoqs.tests.functional_tests --settings=config.settings.ci"
 echo "===================================================================================================================="
 echo "Open http://localhost:7900/?autoconnect=1&resize=scale&password=secret to monitor progress of the tests"
 
