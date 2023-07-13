@@ -26,12 +26,12 @@ import csv
 import logging
 import os
 import tempfile
-from utils.utils import postgresifySQL
-from utils.MPQuery import MPQuery, MPQuerySet
-from utils.PQuery import PQuery
-from utils import encoders
-from utils.Parquet import Columnar
-from utils.Viz.KML import KML
+from stoqs.utils.utils import postgresifySQL
+from stoqs.utils.MPQuery import MPQuery, MPQuerySet
+from stoqs.utils.PQuery import PQuery
+from stoqs.utils import encoders
+from stoqs.utils.Parquet import Columnar
+from stoqs.utils.Viz.KML import KML
 
 logger = logging.getLogger(__name__)
 

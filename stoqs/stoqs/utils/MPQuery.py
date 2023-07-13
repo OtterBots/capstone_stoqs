@@ -25,8 +25,8 @@ from django.db import DatabaseError
 from datetime import datetime
 from stoqs.stoqs.models import MeasuredParameter, Parameter, SampledParameter, ParameterGroupParameter, MeasuredParameterResource
 from .utils import postgresifySQL, getGet_Actual_Count, getParameterGroups
-from loaders import MEASUREDINSITU
-from loaders.SampleLoaders import SAMPLED
+from stoqs.loaders import MEASUREDINSITU
+from stoqs.loaders.SampleLoaders import SAMPLED
 from .PQuery import PQuery
 import logging
 import pprint

@@ -1,4 +1,4 @@
-#FROM mapserver/mapserver:v7.4.2
+# FROM mapserver/mapserver:v7.4.2
 FROM camptocamp/mapserver:542-arm64
 
 USER root
