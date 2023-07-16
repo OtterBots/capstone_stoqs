@@ -17,7 +17,6 @@ The objective of this project is to restructure the [stoqs system](https://githu
 flowchart LR
     Postgis[(Postgis)]
     Stoqs["Stoqs"]
-    NGINX["NGINX"]
 
     Postgis --- Stoqs
     Stoqs--- MapServer
