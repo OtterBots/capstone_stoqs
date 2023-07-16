@@ -18,9 +18,7 @@ flowchart LR
     Postgis[(Postgis)]
     Stoqs["Stoqs"]
     NGINX["NGINX"]
-    MapServer["Map Server"]
 
     Postgis --- Stoqs
-    Stoqs --- NGINX
-    NGINX --- MapServer
+    Stoqs--- MapServer
 ```

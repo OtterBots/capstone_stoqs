@@ -1,5 +1,11 @@
 # ARM vs x86 Compatibility
 
+## TLDR
+
+In the `.env` file there is a `SYS` variable defined at the top uncommenting the one which correlats to the host system architechture should bring everything up properly
+
+Continue readings to manually change paths
+
 ## MapServer
 Currently the MapServer container is unable to start on ARM machines the only logs ouput are:
 ```
