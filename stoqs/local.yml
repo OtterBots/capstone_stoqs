@@ -92,25 +92,25 @@ services:
       - ./.env
 
   # Disable nginx service if PRODUCTION=false - Note: PRODUCTION=false doesn't work (March 2019)
-  nginx:
-    image: mbari/stoqs-nginx
-    build:
-      context: .
-      dockerfile: ./compose/local/nginx/Dockerfile-nginx
-    volumes:
-      - ${STOQS_VOLS_DIR}/html:/srv/html
-      - ${STOQS_VOLS_DIR}/pg_dumps:/srv/media-files/pg_dumps
-      - static-files:/srv/static-files
-      - media-files:/srv/media-files
-    environment:
-      - NGINX_TMPL
-    container_name: stoqs-nginx
-    ports:
+  #nginx:
+   # image: mbari/stoqs-nginx
+   # build:
+     # context: .
+      #dockerfile: ./compose/local/nginx/Dockerfile-nginx
+   # volumes:
+     # - ${STOQS_VOLS_DIR}/html:/srv/html
+     # - ${STOQS_VOLS_DIR}/pg_dumps:/srv/media-files/pg_dumps
+     # - static-files:/srv/static-files
+     # - media-files:/srv/media-files
+   # environment:
+    #  - NGINX_TMPL
+    #container_name: stoqs-nginx
+    #ports:
       # - "80:80"
       # - "8000:8000"
-      - "443:443"
-    depends_on:
-      - stoqs
-    restart: always
-    env_file:
-      - ./.env
+    # - "443:443"
+   # depends_on:
+    #  - stoqs
+   # restart: always
+   # env_file:
+   #   - ./.env
