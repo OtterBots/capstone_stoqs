@@ -80,7 +80,7 @@ services:
     image: mbari/stoqs-mapserver
     build:
       context: .
-      dockerfile: ./compose/local/mapserver/Dockerfile-mapserver
+      dockerfile: ./compose/local/mapserver/Dockerfile-mapserver-${SYS}
     volumes:
       - ${STOQS_VOLS_DIR}/maps:${URL_MAPFILE_DIR}:ro
     container_name: stoqs-mapserver
