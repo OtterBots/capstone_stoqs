@@ -73,7 +73,10 @@ if [ "$PRODUCTION" == "false" ]; then
     export MAPSERVER_SCHEME=http
     echo "Starting development server with DATABASE_URL=${DATABASE_URL}..."
     python manage.py collectstatic --noinput -v 0
-    ${STOQS_SRVHOME}/manage.py runserver 0.0.0.0:8000 --settings=config.settings.local
+
+    # Reload mode i gues causes django to call manage.py runserver twice which was causing a port inuse error with the debuuger
+    # Addded --no-reload flag seems to have fixed this
+    ${STOQS_SRVHOME}/manage.py runserver 0.0.0.0:8000 --settings=config.settings.local --noreload
 else
     echo "Starting production server with DATABASE_URL=${DATABASE_URL}..."
     # For testing on port 8000 before certificate is in place make a security exception in your browser
