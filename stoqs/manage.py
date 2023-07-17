@@ -34,7 +34,8 @@ if __name__ == "__main__":
     print('arg1: {}'.format(sys.argv[1]))
     ####### ADDDING DEBUGPY ########
     # $ This will only activate the debugger when runserver arg is passed. Uncomment to run debugger all the time
-    if settings.DEBUG and not os.getenv("RUN_MAIN"):
+
+    if settings.DEBUG and not os.getenv("RUN_MAIN") and os.getenv("DEBUG") == '1':
         debugpy.listen(("0.0.0.0", 3000))
     ## BLOCK EXECUTION AND WAIT FOR DEBUGGER uncomment if you want it to wait for you to connect vscod
         print('Awaiting debugger')
