@@ -76,7 +76,7 @@ if [ "$PRODUCTION" == "false" ]; then
 
     # Reload mode i gues causes django to call manage.py runserver twice which was causing a port inuse error with the debuuger
     # Addded --no-reload flag seems to have fixed this
-    ${STOQS_SRVHOME}/manage.py runserver 0.0.0.0:8000 --settings=config.settings.local --noreload
+    ${STOQS_SRVHOME}/manage.py runserver 0.0.0.0:8000 --settings=config.settings.local
 else
     echo "Starting production server with DATABASE_URL=${DATABASE_URL}..."
     # For testing on port 8000 before certificate is in place make a security exception in your browser
