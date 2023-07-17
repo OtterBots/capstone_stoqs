@@ -74,8 +74,6 @@ if [ "$PRODUCTION" == "false" ]; then
     echo "Starting development server with DATABASE_URL=${DATABASE_URL}..."
     python manage.py collectstatic --noinput -v 0
 
-    # Reload mode i gues causes django to call manage.py runserver twice which was causing a port inuse error with the debuuger
-    # Addded --no-reload flag seems to have fixed this
     ${STOQS_SRVHOME}/manage.py runserver 0.0.0.0:8000 --settings=config.settings.local
 else
     echo "Starting production server with DATABASE_URL=${DATABASE_URL}..."
