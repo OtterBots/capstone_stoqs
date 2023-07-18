@@ -111,7 +111,7 @@ def getParameterGroups(dbAlias, parameter=None):
     '''
     Return list of ParameterGroups that parameter belongs to
     '''
-    from stoqs.stoqs.models import ParameterGroupParameter
+    from stoqs.models import ParameterGroupParameter
 
     qs = ParameterGroupParameter.objects.using(dbAlias).values_list('parametergroup__name', flat=True)
     if parameter:

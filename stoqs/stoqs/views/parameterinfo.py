@@ -7,7 +7,7 @@ linkage to vocabulary URIs if they exist...
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 from django.http import HttpResponse
-from stoqs.stoqs.models import Parameter, ParameterResource
+from stoqs.models import Parameter, ParameterResource
 import logging
 import simplejson as json
 import threading

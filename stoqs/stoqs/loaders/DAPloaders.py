@@ -40,7 +40,7 @@ from django.db.models import Max
 from django.db.utils import IntegrityError, DatabaseError
 from django.db import transaction
 from jdcal import gcal2jd, jd2gcal
-from stoqs.stoqs.models import (Activity, InstantPoint, Measurement, MeasuredParameter,
+from stoqs.models import (Activity, InstantPoint, Measurement, MeasuredParameter,
                           NominalLocation, Resource, ResourceType, ActivityResource,
                           Parameter)
 from datetime import datetime, timedelta

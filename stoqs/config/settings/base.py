@@ -113,7 +113,7 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "stoqs.users",
-    "stoqs.stoqs",
+    "stoqs",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -242,7 +242,9 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 # FIXTURES
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#fixture-dirs
-FIXTURE_DIRS = (str(APPS_DIR / "fixtures"),)
+FIXTURE_DIRS = (
+    # str(APPS_DIR / "fixtures"),
+)
 
 # SECURITY
 # ------------------------------------------------------------------------------

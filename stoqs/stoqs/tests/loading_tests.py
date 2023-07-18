@@ -11,7 +11,7 @@ MBARI 24 October 2017
 
 import os
 import sys
-parent_dir = os.path.join(os.path.dirname(__file__), "../../loaders")
+parent_dir = os.path.join(os.path.dirname(__file__), "../loaders")
 sys.path.insert(0, parent_dir)  # So that CCE is found
 
 import time
@@ -23,7 +23,7 @@ from datetime import timedelta
 from django.conf import settings
 from django.test import TestCase
 from django.urls import reverse
-from stoqs.stoqs.models import MeasuredParameter, ActivityParameter, ParameterResource, Parameter
+from stoqs.models import MeasuredParameter, ActivityParameter, ParameterResource, Parameter
 from CCE.loadCCE_2015 import lores_event_times
 
 logger = logging.getLogger('stoqs.tests')

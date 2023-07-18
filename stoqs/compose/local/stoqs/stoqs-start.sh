@@ -45,12 +45,10 @@ chmod 777 ${MAPFILE_DIR}
 
 # If default stoqs database doesn't exist then load it - also running the unit and functional tests
 echo "Checking for presence of stoqs database..."
-POSTGRES_DB=stoqs python ${STOQS_SRVHOME}/database-check.py
+POSTGRES_DB=stoqs python ${STOQS_SRVHOME}/compose/local/stoqs/database-check.py
 if [[ $? != 0 ]]; then
     echo "Creating default stoqs database and running tests..."
-    #./test.sh changeme load noextraload
-    # sub env variable for password
-    compose/local/stoqs/test.sh ${POSTGRES_PASSWORD} load noextraload
+    ./test.sh ${POSTGRES_PASSWORD} load noextraload
 fi
 
 if [[ ! -z $CAMPAIGNS_MODULE ]]; then
