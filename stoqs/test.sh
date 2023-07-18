@@ -99,8 +99,8 @@ then
     psql -p $PGPORT -c "GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO stoqsadm;" -U postgres -d stoqs
 
     echo "Copy x3dom javascript library version that works with SRC binary terrain"
-    mkdir -p stoqs/static/x3dom-1.8.1
-    wget --no-check-certificate -O stoqs/static/x3dom-1.8.1/x3dom-full.debug.js https://stoqs.mbari.org/static/x3dom-1.8.1/x3dom-full.debug.js
+    mkdir -p static/x3dom-1.8.1
+    wget --no-check-certificate -O static/x3dom-1.8.1/x3dom-full.debug.js https://stoqs.mbari.org/static/x3dom-1.8.1/x3dom-full.debug.js
 
     # Get bathymetry and load data from MBARI data servers
     wget --no-check-certificate -O stoqs/loaders/Monterey25.grd https://stoqs.mbari.org/terrain/Monterey25.grd
@@ -128,7 +128,8 @@ then
     psql -p $PGPORT -c "GRANT select on all tables in schema public to everyone;" -U postgres -d stoqs 2> /dev/null
 
     # Create database fixture
-    /srv/manage.py dumpdata --settings=config.settings.ci stoqs > stoqs/fixtures/stoqs_test_data.json
+    echo "Current directory is: $(pwd)"
+    /srv/manage.py dumpdata --settings=config.settings.ci stoqs > /srv/stoqs/fixtures/stoqs_test_data.json
 fi
 
 # Run tests using the continuous integration (ci) setting
@@ -159,10 +160,10 @@ cd ..
 
 # Save tests_status to ${STOQS_HOME}/stoqs/stoqs/tests for Dockerclud and return it for Travis-CI 
 echo "unit_tests_status = $unit_tests_status"
-echo "Executing echo $unit_tests_status > stoqs/stoqs/tests/unit_tests_status..."
-echo $unit_tests_status > stoqs/stoqs/tests/unit_tests_status
-echo "Executing cat stoqs/stoqs/tests/unit_tests_status..."
-cat stoqs/stoqs/tests/unit_tests_status
+echo "Executing echo $unit_tests_status > stoqs/tests/unit_tests_status..."
+echo $unit_tests_status > stoqs/tests/unit_tests_status
+echo "Executing cat stoqs/tests/unit_tests_status..."
+cat stoqs/tests/unit_tests_status
 # For when we're confident that all tests will pass in CI - for now, rely on just unit tests
 ##exit $(($unit_tests_status + $loading_tests_status + $functional_tests_status))
 exit $unit_tests_status
