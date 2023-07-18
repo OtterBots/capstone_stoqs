@@ -27,7 +27,7 @@ if __name__ == "__main__":
 
         raise
 
-    # This allows easy placement of apps within the interior
+     # This allows easy placement of apps within the interior
     # stoqs directory.
     current_path = Path(__file__).resolve()
     sys.path.append(str(current_path / "stoqs"))
@@ -41,7 +41,7 @@ if __name__ == "__main__":
         print('Awaiting debugger')
         debugpy.wait_for_client()
         print('Attached!')
-  
+
     ## END DEBUGPY INSERT
 
     execute_from_command_line(sys.argv)
