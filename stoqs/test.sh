@@ -154,7 +154,7 @@ echo "Open http://localhost:7900/?autoconnect=1&resize=scale&password=secret to 
 ## TODO #### paths bellow here still need to be investigate. above echo command was missing a quote and all of this was like not running
 
 # Report results of unit and functional tests
-coverage report -m --omit utils/geo.py,utils/utils.py
+coverage report -m --omit utils/geo.py,utils/utils.py,loaders
 tools/removeTmpFiles.sh > /dev/null 2>&1
 cd ..
 
