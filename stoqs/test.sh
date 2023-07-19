@@ -34,6 +34,7 @@ then
 fi
 
 # switch backticks to expansion
+# PGPORT=`echo $DATABASE_URL | cut -d':' -f4 | cut -d'/' -f1`
 PGPORT=$(echo $DATABASE_URL | cut -d':' -f4 | cut -d'/' -f1)
 
 if [ -z $DATABASE_SUPERUSER_URL ]
@@ -42,8 +43,7 @@ then
 fi
 
 # Assume starting in project home (stoqsgit) directory
-#This level of file structure has been removed is it just here for manage.py?
-#cd stoqs
+cd stoqs
 
 # Create database roles used by STOQS applications - don't print out errors, e.g.: if role already exists
 psql -p $PGPORT -c "CREATE USER stoqsadm WITH PASSWORD '$1';" -U postgres 2> /dev/null
@@ -61,12 +61,11 @@ then
         echo "Cannot create default database stoqs; refer to above message."
         exit -1
     fi
-    #add /srv/ path to manage.py
     DATABASE_URL=$DATABASE_SUPERUSER_URL /srv/manage.py dumpdata --settings=config.settings.ci stoqs > stoqs/fixtures/stoqs_load_test.json
     echo "Loading tests..."
     # Need to create and drop test_ databases using shell account, hence reassign DATABASE_URL.
     # Note that DATABASE_URL is exported before this script is executed, this is so that it also works in Travis-CI.
-    DATABASE_URL=$DATABASE_SUPERUSER_URL coverage run -a --source=utils,stoqs /srv/manage.py test stoqs.tests.loading_tests --settings=config.settings.ci
+    DATABASE_URL=$DATABASE_SUPERUSER_URL coverage run -a --source=utils,stoqs manage.py test stoqs.tests.loading_tests --settings=config.settings.ci
     loading_tests_status=$?
 fi
 
@@ -86,7 +85,9 @@ then
     fi
     psql -p $PGPORT -c "ALTER DATABASE stoqs SET TIMEZONE='GMT';" -U postgres
 
-    ### This used to be ./manage.py I think this should be in /srv/ now
+    # used to check directory to make sure manage.py path is figured out
+    # echo "Current directory is: $(pwd)"
+
     /srv/manage.py makemigrations stoqs --settings=config.settings.ci --noinput
     /srv/manage.py migrate --settings=config.settings.ci --noinput --database=default
     if [ $? != 0 ]
@@ -98,28 +99,27 @@ then
     psql -p $PGPORT -c "GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO stoqsadm;" -U postgres -d stoqs
 
     echo "Copy x3dom javascript library version that works with SRC binary terrain"
-    mkdir -p stoqs/static/x3dom-1.8.1
-    wget --no-check-certificate -O stoqs/static/x3dom-1.8.1/x3dom-full.debug.js https://stoqs.mbari.org/static/x3dom-1.8.1/x3dom-full.debug.js
+    mkdir -p static/x3dom-1.8.1
+    wget --no-check-certificate -O static/x3dom-1.8.1/x3dom-full.debug.js https://stoqs.mbari.org/static/x3dom-1.8.1/x3dom-full.debug.js
 
     # Get bathymetry and load data from MBARI data servers
     wget --no-check-certificate -O stoqs/loaders/Monterey25.grd https://stoqs.mbari.org/terrain/Monterey25.grd
-    coverage run --include="stoqs/loaders/__in*,stoqs/loaders/DAP*,stoqs/loaders/Samp*" stoqs/loaders/loadTestData.py
+    coverage run --include="loaders/__in*,loaders/DAP*,loaders/Samp*" loaders/loadTestData.py
     if [ $? != 0 ]
     then
-        echo "stoqs/loaders/loadTestData.py failed to load initial database; exiting test.sh."
+        echo "loaders/loadTestData.py failed to load initial database; exiting test.sh."
         exit -1
     fi
 
-    coverage run --include="stoqs/loaders/__in*,stoqs/loaders/DAP*,stoqs/loaders/Samp*" stoqs/loaders/loadMoreData.py --append
+    coverage run --include="loaders/__in*,loaders/DAP*,loaders/Samp*" loaders/loadMoreData.py --append
     if [ $? != 0 ]
     then
-        echo "stoqs/loaders/loadMoreData.py failed to load more data to existing Activity; exiting test.sh."
+        echo "loaders/loadMoreData.py failed to load more data to existing Activity; exiting test.sh."
         exit -1
     fi
 
     # Label some data in the test database
-    #CHANGE PATH TO includes its prob wrong
-    coverage run -a --include="/srv/stoqs/contrib/analysis/classify.py" /srv/stoqs/contrib/analysis/classify.py \
+    coverage run -a --include="contrib/analysis/classify.py" contrib/analysis/classify.py \
       --createLabels --groupName Plankton --database default  --platform dorado \
       --inputs bbp700 fl700_uncorr --discriminator salinity --labels diatom dino1 dino2 sediment \
       --mins 33.33 33.65 33.70 33.75 --maxes 33.65 33.70 33.75 33.93 -v
@@ -128,8 +128,8 @@ then
     psql -p $PGPORT -c "GRANT select on all tables in schema public to everyone;" -U postgres -d stoqs 2> /dev/null
 
     # Create database fixture
-    # path for manage.py
-    /srv/manage.py dumpdata --settings=config.settings.ci stoqs > stoqs/fixtures/stoqs_test_data.json
+    echo "Current directory is: $(pwd)"
+    /srv/manage.py dumpdata --settings=config.settings.ci stoqs > /srv/stoqs/fixtures/stoqs_test_data.json
 fi
 
 # Run tests using the continuous integration (ci) setting
@@ -141,12 +141,12 @@ unit_tests_status=$?
 
 # Instructions for running functional tests, instead of running them here
 echo "===================================================================================================================="
-echo "Functional tests may be run in a separate session using a different docker-compose yml file..."
+echo "Functional tests may be run in a separate session using a different local yml file..."
 echo "----------------------------------------------------------------------------------------------"
-echo "cd docker"
+# echo "cd docker"
 echo "docker-compose down"
-echo "docker-compose -f docker-compose-ci.yml up -d --build"
-echo "docker-compose -f docker-compose-ci.yml run --rm stoqs /bin/bash"
+echo "docker-compose -f local-ci.yml up -d --build"
+echo "docker-compose -f local-ci.yml run --rm stoqs /bin/bash"
 echo "DATABASE_URL=\$DATABASE_SUPERUSER_URL stoqs/manage.py test stoqs.tests.functional_tests --settings=config.settings.ci"
 echo "===================================================================================================================="
 echo "Open http://localhost:7900/?autoconnect=1&resize=scale&password=secret to monitor progress of the tests"
@@ -154,16 +154,16 @@ echo "Open http://localhost:7900/?autoconnect=1&resize=scale&password=secret to 
 ## TODO #### paths bellow here still need to be investigate. above echo command was missing a quote and all of this was like not running
 
 # Report results of unit and functional tests
-coverage report -m --omit utils/geo.py,utils/utils.py
+coverage report -m --omit utils/geo.py,utils/utils.py,loaders
 tools/removeTmpFiles.sh > /dev/null 2>&1
 cd ..
 
 # Save tests_status to ${STOQS_HOME}/stoqs/stoqs/tests for Dockerclud and return it for Travis-CI 
 echo "unit_tests_status = $unit_tests_status"
-echo "Executing echo $unit_tests_status > stoqs/stoqs/tests/unit_tests_status..."
-echo $unit_tests_status > stoqs/stoqs/tests/unit_tests_status
-echo "Executing cat stoqs/stoqs/tests/unit_tests_status..."
-cat stoqs/stoqs/tests/unit_tests_status
+echo "Executing echo $unit_tests_status > stoqs/tests/unit_tests_status..."
+echo $unit_tests_status > stoqs/tests/unit_tests_status
+echo "Executing cat stoqs/tests/unit_tests_status..."
+cat stoqs/tests/unit_tests_status
 # For when we're confident that all tests will pass in CI - for now, rely on just unit tests
 ##exit $(($unit_tests_status + $loading_tests_status + $functional_tests_status))
 exit $unit_tests_status

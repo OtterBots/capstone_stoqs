@@ -11,7 +11,7 @@ MBARI 24 October 2017
 
 import os
 import sys
-parent_dir = os.path.join(os.path.dirname(__file__), "../../loaders")
+parent_dir = os.path.join(os.path.dirname(__file__), "../loaders")
 sys.path.insert(0, parent_dir)  # So that CCE is found
 
 import time

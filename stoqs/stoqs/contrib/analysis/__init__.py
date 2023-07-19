@@ -20,7 +20,7 @@ django.setup()
 from collections import defaultdict
 from datetime import datetime
 from django.db import connections
-from stoqs.stoqs.models import Activity, ActivityParameter, ParameterResource, Platform, MeasuredParameter, Parameter
+from stoqs.models import Activity, ActivityParameter, ParameterResource, Platform, MeasuredParameter, Parameter
 from django.contrib.gis.db.models import Extent
 from django.contrib.gis.geos import Point
 from django.db.models import Max, Min

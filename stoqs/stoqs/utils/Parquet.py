@@ -16,7 +16,7 @@ import psutil
 import tempfile
 import warnings
 from django.db import connections
-from stoqs.stoqs.models import Platform
+from stoqs.models import Platform
 from time import time
 
 logger = logging.getLogger(__name__)
