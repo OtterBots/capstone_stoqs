@@ -121,7 +121,9 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 # MIGRATIONS
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#migration-modules
-MIGRATION_MODULES = {"sites": "stoqs.contrib.sites.migrations"}
+MIGRATION_MODULES = {
+    # "sites": "stoqs.contrib.sites.migrations"
+}
 
 # AUTHENTICATION
 # ------------------------------------------------------------------------------
@@ -368,12 +370,12 @@ LOGGING['loggers']['utils'] = {
                             'level':'INFO',
                             'formatter': 'verbose'
 }
-LOGGING['loggers']['stoqs.views'] = {
+LOGGING['loggers']['views'] = {
                             'handlers':['console'],
                             'level':'INFO',
                             'formatter': 'verbose'
 }
-LOGGING['loggers']['stoqs.tests'] = {
+LOGGING['loggers']['tests'] = {
                             'handlers':['console'],
                             'level':'INFO',
                             'formatter': 'verbose'
