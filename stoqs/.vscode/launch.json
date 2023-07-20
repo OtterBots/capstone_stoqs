@@ -7,7 +7,7 @@
         "request": "attach",
         "pathMappings": [
           {
-            "localRoot": "/home/andy/src/capstone_stoqs/stoqs",
+            "localRoot": "${workspaceFolder}",
             "remoteRoot": "/srv"
           }
         ],
