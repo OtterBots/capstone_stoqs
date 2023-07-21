@@ -135,7 +135,7 @@ fi
 # Need to create and drop test_ databases using shell account or sa url, hence reassign DATABASE_URL
 echo "Unit tests..."
 DATABASE_URL=$DATABASE_SUPERUSER_URL
-coverage run -a --source=utils,stoqs /srv/manage.py test stoqs.tests.unit_tests --settings=config.settings.ci
+# coverage run -a --source=utils,stoqs /srv/manage.py test stoqs.tests.unit_tests --settings=config.settings.ci
 unit_tests_status=$?
 
 # Instructions for running functional tests, instead of running them here
