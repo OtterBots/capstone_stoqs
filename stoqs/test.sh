@@ -98,9 +98,9 @@ then
     psql -p $PGPORT -c "GRANT ALL ON ALL TABLES IN SCHEMA public TO stoqsadm;" -U postgres -d stoqs
     psql -p $PGPORT -c "GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO stoqsadm;" -U postgres -d stoqs
 
-    echo "Copy x3dom javascript library version that works with SRC binary terrain"
-    mkdir -p static/x3dom-1.8.1
-    wget --no-check-certificate -O static/x3dom-1.8.1/x3dom-full.debug.js https://stoqs.mbari.org/static/x3dom-1.8.1/x3dom-full.debug.js
+    # echo "Copy x3dom javascript library version that works with SRC binary terrain"
+    # mkdir -p static/x3dom-1.8.1
+    # wget --no-check-certificate -O static/x3dom-1.8.1/x3dom-full.debug.js https://stoqs.mbari.org/static/x3dom-1.8.1/x3dom-full.debug.js
 
     # Get bathymetry and load data from MBARI data servers
     wget --no-check-certificate -O stoqs/loaders/Monterey25.grd https://stoqs.mbari.org/terrain/Monterey25.grd
@@ -135,7 +135,7 @@ fi
 # Need to create and drop test_ databases using shell account or sa url, hence reassign DATABASE_URL
 echo "Unit tests..."
 DATABASE_URL=$DATABASE_SUPERUSER_URL
-# coverage run -a --source=utils,stoqs /srv/manage.py test stoqs.tests.unit_tests --settings=config.settings.ci
+coverage run -a --source=utils,stoqs /srv/manage.py test stoqs.tests.unit_tests --settings=config.settings.ci
 unit_tests_status=$?
 
 # Instructions for running functional tests, instead of running them here

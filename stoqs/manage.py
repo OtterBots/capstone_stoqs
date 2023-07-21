@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 import os
 import sys
-import debugpy
 from pathlib import Path
 
 ## DEBUGPY
+import debugpy
 from django.conf import settings
 
 if __name__ == "__main__":
@@ -32,11 +32,11 @@ if __name__ == "__main__":
     current_path = Path(__file__).resolve()
     sys.path.append(str(current_path / "stoqs"))
 
-    print('arg1: {}'.format(sys.argv[1]))
+
     ####### ADDDING DEBUGPY ########
     # $ This will only activate the debugger when runserver arg is passed. Uncomment to run debugger all the time
-
     if settings.DEBUG and not os.getenv("RUN_MAIN") and os.getenv("DEBUG") == '1':
+        print('arg1: {}'.format(sys.argv[1]))
         debugpy.listen(("0.0.0.0", 3000))
     ## BLOCK EXECUTION AND WAIT FOR DEBUGGER uncomment if you want it to wait for you to connect vscod
         print('Awaiting debugger')
