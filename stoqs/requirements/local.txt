@@ -35,6 +35,9 @@ thredds-crawler==1.5.4
 # ipdb==0.13.13  # https://github.com/gotcha/ipdb
 psycopg2==2.9.6  # https://github.com/psycopg/psycopg2
 
+##### ADDING DEBUGPY #####
+debugpy==1.5.1
+
 # # Testing
 # # ------------------------------------------------------------------------------
 # mypy==1.3.0  # https://github.com/python/mypy
