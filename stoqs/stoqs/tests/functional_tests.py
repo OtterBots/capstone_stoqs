@@ -38,8 +38,8 @@ import os
 import re
 import time
 
-logger = logging.getLogger('stoqs.tests')
-settings.LOGGING['loggers']['stoqs.tests']['level'] = 'INFO'
+logger = logging.getLogger('tests')
+settings.LOGGING['loggers']['tests']['level'] = 'INFO'
 
 class wait_for_text_to_match(object):
     def __init__(self, locator, pattern):
@@ -84,7 +84,7 @@ class BaseTestCase(TestCase):
             options=chrome_options,
         )
         self.browser.implicitly_wait(10)
-        self.server_url = "http://stoqs:8001"
+        self.server_url = "http://stoqs:8001/stoqs"
 
     def tearDown(self):
         self.browser.quit()

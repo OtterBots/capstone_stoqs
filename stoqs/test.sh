@@ -146,7 +146,7 @@ echo "--------------------------------------------------------------------------
 echo "docker-compose down"
 echo "docker-compose -f local-ci.yml up -d --build"
 echo "docker-compose -f local-ci.yml run --rm stoqs /bin/bash"
-echo "DATABASE_URL=\$DATABASE_SUPERUSER_URL stoqs/manage.py test stoqs.tests.functional_tests --settings=config.settings.ci"
+echo "DATABASE_URL=$DATABASE_SUPERUSER_URL python manage.py test stoqs.tests.functional_tests --settings=config.settings.ci"
 echo "===================================================================================================================="
 echo "Open http://localhost:7900/?autoconnect=1&resize=scale&password=secret to monitor progress of the tests"
 
