@@ -11,26 +11,25 @@
     ```
 
 3. In the shell, enter the following command to set the `DATABASE_URL` environment variable:
-    ```bash
+    ``` bash
     export DATABASE_URL=postgis://stoqsadm:CHANGEME@stoqs-postgis:5432/stoqs
     ```
 
 4. Next, set the `DATABASE_SUPERUSER_URL` environment variable by entering the following command:
-    ```bash
+    ``` bash
     export DATABASE_SUPERUSER_URL=postgis://postgres:changeme@stoqs-postgis:5432/stoqs
     ```
 
 5. Now, you can run the `test.sh` script with the following command:
-    ```bash
+    ``` bash
     ./test.sh CHANGEME load noextraload
     ```
+    
+    - You should see the following starting line:
+        - `Loading standard data for unit and functional tests...`
+        - The tests can take 5+ minutes to complete.
 
-You should see the following starting line:
-'Loading standard data for unit and functional tests...'
-
-The tests can take 5+ minutes to complete.
-
-Type ```exit``` in shell to exit.
+Type `exit` in shell to exit.
 
 ## Results
 ```
@@ -111,23 +110,25 @@ Type ```exit``` in shell to exit.
 2023-07-21 16:04:25 
 2023-07-21 16:04:25 FAILED (errors=1)
 ```
-Note: The above log was with 4 tests commented out (see Troubleshooting Problem #1) since x3dom has been causing hanging issues.
+
+!!! Note: 
+The above log was with 4 tests commented out (see Troubleshooting Problem #1) since x3dom has been causing hanging issues.
 
 ## Troubleshooting
 
-### <strong>Problem #1</strong>:
+### **Problem #1**:
 If running all 45 unit tests and it hangs during running test.sh, then it is possible x3dom.org is down or not working.
 
-<strong>Solution</strong>: If you still want to view the results for the other tests, comment out the four below tests in test.sh:
+**Solution**: If you still want to view the results for the other tests, comment out the four below tests in test.sh:
 - test_measuredparameter()
 - test_parameterparameterplot1()
 - test_parameterparameterplot2()
 - test_parameterparameterplot3()
 
-### <strong>Problem #2</strong>:
+### **Problem #2**:
 Error: ```stoqs.models.Parameter.DoesNotExist: Parameter matching query does not exist.```
 
-<strong>Solution</strong>: Check stoqs DB and view the stoqs_parameter table.  Check if the name is in the data.  If it is not, then that is why the error happened.
+**Solution**: Check stoqs DB and view the stoqs_parameter table.  Check if the name is in the data.  If it is not, then that is why the error happened.
 
 Example:
 ```
@@ -143,4 +144,4 @@ stoqs            |   File "/usr/local/lib/python3.10/dist-packages/django/db/mod
 stoqs            |     raise self.model.DoesNotExist(
 stoqs            | stoqs.models.Parameter.DoesNotExist: Parameter matching query does not exist.
 ```
-In table stoqs_parameter, the name field did not have an entry for "CAL1939_calanoida".
+{==In table stoqs_parameter, the name field did not have an entry for "CAL1939_calanoida".==}
