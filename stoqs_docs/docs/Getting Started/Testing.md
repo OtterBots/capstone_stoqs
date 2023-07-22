@@ -6,9 +6,8 @@
     ```
 
 2. After running the command, a bash shell will appear, and it will look similar to the following prompt:
-    ```
-    root@601e658963ba:/srv#
-    ```
+
+    `root@601e658963ba:/srv#`
 
 3. In the shell, enter the following command to set the `DATABASE_URL` environment variable:
     ``` bash
@@ -117,6 +116,7 @@ FAILED (errors=2)
 If running all 45 unit tests and it hangs during running test.sh, then it is possible x3dom.org is down or not working.
 
 **Solution**: If you still want to view the results for the other tests, comment out the four below tests in test.sh:
+
 - test_measuredparameter()
 - test_parameterparameterplot1()
 - test_parameterparameterplot2()
