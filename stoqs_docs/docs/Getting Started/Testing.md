@@ -1,5 +1,3 @@
-# Testing
-
 ## Running all tests (test.sh)
 Make sure you at are the capstone_stoqs/stoqs directory.  This is where the local.yml is.
 
