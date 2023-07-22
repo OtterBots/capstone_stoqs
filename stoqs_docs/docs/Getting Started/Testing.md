@@ -26,9 +26,8 @@
     ```
 
 You should see the following starting line:
-```
-Loading standard data for unit and functional tests...
-```
+'Loading standard data for unit and functional tests...'
+
 The tests can take 5+ minutes to complete.
 
 Type ```exit``` in shell to exit.
