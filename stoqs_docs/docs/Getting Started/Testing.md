@@ -1,4 +1,4 @@
-# Testing
+t# Testing
 
 ## Running all tests (test.sh)
 Make sure you at are the capstone_stoqs/stoqs directory.  This is where the local.yml is.
@@ -15,6 +15,8 @@ You should see the following starting line:
 Loading standard data for unit and functional tests...
 ```
 The tests can take 5+ minutes to complete.
+
+Type ```exit``` in shell to exit.
 
 ## Results
 ```
