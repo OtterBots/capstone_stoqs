@@ -1,7 +1,20 @@
 # Testing
 
-## Running test.sh
-Instructions coming soon!~
+## Running all tests (test.sh)
+Make sure you at are the capstone_stoqs/stoqs directory.  This is where the local.yml is.
+
+In terminal, do the following steps.  This should create the containers.
+1. ```docker-compose -f local.yml run --rm stoqs /bin/bash```
+2. The bash shell should run and look similar to: ```root@601e658963ba:/srv#```
+3. Enter into shell: ```export DATABASE_URL=postgis://stoqsadm:CHANGEME@stoqs-postgis:5432/stoqs```
+4. Then enter: ```export DATABASE_SUPERUSER_URL=postgis://postgres:changeme@stoqs-postgis:5432/stoqs```
+5. And then run test.sh with: ```./test.sh CHANGEME load noextraload```
+
+You should see the following starting line:
+```
+Loading standard data for unit and functional tests...
+```
+The tests can take 5+ minutes to complete.
 
 ## Results
 ```
