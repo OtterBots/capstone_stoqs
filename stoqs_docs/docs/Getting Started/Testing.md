@@ -111,8 +111,8 @@ Type `exit` in shell to exit.
 2023-07-21 16:04:25 FAILED (errors=1)
 ```
 
-!!! Note: 
-The above log was with 4 tests commented out (see Troubleshooting Problem #1) since x3dom has been causing hanging issues.
+!!! Note 
+    The above log was with 4 tests commented out (see Troubleshooting Problem #1) since x3dom has been causing hanging issues.
 
 ## Troubleshooting
 
