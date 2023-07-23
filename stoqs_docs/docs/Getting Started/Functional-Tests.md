@@ -1,6 +1,9 @@
 ## Running only functional tests (local-ci.yml)
 
-In `.env` file, set `DEBUG=0` and `DJANGO_DEBUG=false`.  Stop any running containers.  This test will remove existing containers.  When the functional test is finished, you will need to re-create local.yml containers.  This test uses Selenium, so use the following browser url: `http://localhost:7900/?autoconnect=1&resize=scale&password=secret`.
+In `.env` file, set `DEBUG=0` and `DJANGO_DEBUG=false`.  Stop any running containers.  This test will remove existing containers.  When the functional test is finished, you will need to re-create local.yml containers.
+
+!!! Note
+    This test uses Selenium, so use the following browser url: `http://localhost:7900/?autoconnect=1&resize=scale&password=secret`.  Selenium tests the stoqs website functionality, thus the pages will be automated.  There is no need to click anything in the browser while the test is running.
 
 1. Open the terminal and go to the capstone_stoqs/stoqs directory where the local.yml is located.  Run the following command to remove all the containers:
     ```
@@ -35,5 +38,4 @@ In `.env` file, set `DEBUG=0` and `DJANGO_DEBUG=false`.  Stop any running contai
 7. Type `exit` in shell to exit.
 
 !!! Note 
-    You will need to remove the local-ci.yml (functional test containers) and create the local.yml ones.
-
+    When done with functional tests, you will need to remove the containers created by local-ci.yml (functional test containers) and re-create the local.yml development environment containers.
