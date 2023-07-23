@@ -46,7 +46,7 @@ chmod 777 ${MAPFILE_DIR}
 # If default stoqs database doesn't exist then load it - also running the unit and functional tests
 echo "Checking for presence of stoqs database..."
 POSTGRES_DB=stoqs python ${STOQS_SRVHOME}/compose/local/stoqs/database-check.py
-if [[ $? != 0 ]]; then
+if [[ $? != 0 ]]  || [[ $TEST -eq 1 ]]; then
     echo "Creating default stoqs database and running tests..."
     ./test.sh ${POSTGRES_PASSWORD} load noextraload
 fi
