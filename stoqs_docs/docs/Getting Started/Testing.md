@@ -1,5 +1,7 @@
 ## Running all tests (test.sh)
 
+Containers should already exist for local.yml but not running before following the below instructions.  Also, `.env` file at root, set `DEBUG=0`.  This ensures no interuption from the debugpy.
+
 1. Open the terminal and go to the capstone_stoqs/stoqs directory where the local.yml is located.  Run the following command to create the containers:
     ```
     docker-compose -f local.yml run --rm stoqs /bin/bash
@@ -24,16 +26,16 @@
     ./test.sh CHANGEME load noextraload
     ```
     
-    - You should see the following starting line:
-        - `Loading standard data for unit and functional tests...`
-        - The tests can take 5+ minutes to complete.
+    The tests can takes over 5 minutes to complete.
 
-Type `exit` in shell to exit.
+6. When finished, stop containers.
+
+7. Type `exit` in shell to exit.
 
 ## Results
 ```
 Unit tests...
-Found 41 test(s).
+Found 40 test(s).
 Creating test database for alias 'default'...
 System check identified no issues (0 silenced).
 unit_tests.py: BaseAndMeasurementViewsTestCase: test_activity: DONE
@@ -66,54 +68,31 @@ unit_tests.py: ParquetTestCase: test_include_activity_names: DONE
 .unit_tests.py: ParquetTestCase: test_single_activitynames: DONE
 .unit_tests.py: SummaryDataTestCase: test_empty: DONE
 .unit_tests.py: SummaryDataTestCase: test_histograms: DONE
-.Eunit_tests.py: SummaryDataTestCase: test_measuredparameter_select: DONE
+.unit_tests.py: SummaryDataTestCase: test_labeled: DONE
+.unit_tests.py: SummaryDataTestCase: test_measuredparameter_select: DONE
 .unit_tests.py: SummaryDataTestCase: test_parameterplot_scatter: DONE
 .unit_tests.py: SummaryDataTestCase: test_parametervalue_min_max1: DONE
 .unit_tests.py: SummaryDataTestCase: test_platform_animations: DONE
-.Eunit_tests.py: SummaryDataTestCase: test_simpledepthtime_timeseries: DONE
+.unit_tests.py: SummaryDataTestCase: test_simpledepthtime_timeseries: DONE
 .unit_tests.py: SummaryDataTestCase: test_simpledepthtime_timeseriesprofile1: DONE
 .unit_tests.py: SummaryDataTestCase: test_simpledethtime_timeseriesprofile2: DONE
 .unit_tests.py: SummaryDataTestCase: test_standardname_select: DONE
 .unit_tests.py: SummaryDataTestCase: test_timedepth: DONE
 .unit_tests.py: SummaryDataTestCase: test_timedepth2: DONE
 .
-======================================================================
-ERROR: test_labeled (stoqs.tests.unit_tests.SummaryDataTestCase)
 ----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/srv/stoqs/tests/unit_tests.py", line 528, in test_labeled
-    diatom_id = Resource.objects.get(name='label', value='diatom').id
-  File "/usr/local/lib/python3.10/dist-packages/django/db/models/manager.py", line 87, in manager_method
-    return getattr(self.get_queryset(), name)(*args, **kwargs)
-  File "/usr/local/lib/python3.10/dist-packages/django/db/models/query.py", line 637, in get
-    raise self.model.DoesNotExist(
-stoqs.models.Resource.DoesNotExist: Resource matching query does not exist.
+Ran 40 tests in 706.012s
 
-======================================================================
-ERROR: test_sampledparameter_select (stoqs.tests.unit_tests.SummaryDataTestCase)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/srv/stoqs/tests/unit_tests.py", line 336, in test_sampledparameter_select
-    CAL1939_calanoida_id = Parameter.objects.get(name='CAL1939_calanoida').id
-  File "/usr/local/lib/python3.10/dist-packages/django/db/models/manager.py", line 87, in manager_method
-    return getattr(self.get_queryset(), name)(*args, **kwargs)
-  File "/usr/local/lib/python3.10/dist-packages/django/db/models/query.py", line 637, in get
-    raise self.model.DoesNotExist(
-stoqs.models.Parameter.DoesNotExist: Parameter matching query does not exist.
-
-----------------------------------------------------------------------
-Ran 41 tests in 295.935s
-
-FAILED (errors=2)
+OK
 ```
 
 !!! Note 
-    The above log was with 4 tests commented out (see Troubleshooting Problem #1) since x3dom has been causing hanging issues.
+    The above log was with 5 tests commented out (see Troubleshooting Problem #1).
 
 ## Troubleshooting
 
 ### **Problem #1**:
-If running all 45 unit tests and it hangs during running test.sh, then it is possible x3dom.org is down or not working.
+If running all 45 unit tests and it hangs during running test.sh, then it is possible x3dom.org is down or not working.  Or possibly a file path issue that has not been located.
 
 **Solution**: If you still want to view the results for the other tests, comment out the four below tests in test.sh:
 
@@ -121,9 +100,10 @@ If running all 45 unit tests and it hangs during running test.sh, then it is pos
 - test_parameterparameterplot1()
 - test_parameterparameterplot2()
 - test_parameterparameterplot3()
+- test_sampledparameter_select()
 
 ### **Problem #2**:
-Error: ```stoqs.models.Parameter.DoesNotExist: Parameter matching query does not exist.```
+```stoqs.models.Parameter.DoesNotExist: Parameter matching query does not exist.```
 
 **Solution**: Check stoqs DB and view the stoqs_parameter table.  Check if the name is in the data.  If it is not, then that is why the error happened.
 
@@ -142,3 +122,10 @@ stoqs            |     raise self.model.DoesNotExist(
 stoqs            | stoqs.models.Parameter.DoesNotExist: Parameter matching query does not exist.
 ```
 {==In table stoqs_parameter, the name field did not have an entry for "CAL1939_calanoida".==}
+
+### **Problem #3**:
+```Got an error creating the test database: database "test_stoqs" already exists```
+
+```Type 'yes' if you would like to try deleting the test database 'test_stoqs', or 'no' to cancel:```
+
+**Solution**: Type `yes`.  Then the test will continue.
