@@ -98,9 +98,9 @@ then
     psql -p $PGPORT -c "GRANT ALL ON ALL TABLES IN SCHEMA public TO stoqsadm;" -U postgres -d stoqs
     psql -p $PGPORT -c "GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO stoqsadm;" -U postgres -d stoqs
 
-    echo "Copy x3dom javascript library version that works with SRC binary terrain"
-    mkdir -p static/x3dom-1.8.1
-    wget --no-check-certificate -O static/x3dom-1.8.1/x3dom-full.debug.js https://stoqs.mbari.org/static/x3dom-1.8.1/x3dom-full.debug.js
+    # echo "Copy x3dom javascript library version that works with SRC binary terrain"
+    # mkdir -p static/x3dom-1.8.1
+    # wget --no-check-certificate -O static/x3dom-1.8.1/x3dom-full.debug.js https://stoqs.mbari.org/static/x3dom-1.8.1/x3dom-full.debug.js
 
     # Get bathymetry and load data from MBARI data servers
     wget --no-check-certificate -O stoqs/loaders/Monterey25.grd https://stoqs.mbari.org/terrain/Monterey25.grd
@@ -146,7 +146,7 @@ echo "--------------------------------------------------------------------------
 echo "docker-compose down"
 echo "docker-compose -f local-ci.yml up -d --build"
 echo "docker-compose -f local-ci.yml run --rm stoqs /bin/bash"
-echo "DATABASE_URL=\$DATABASE_SUPERUSER_URL stoqs/manage.py test stoqs.tests.functional_tests --settings=config.settings.ci"
+echo "DATABASE_URL=$DATABASE_SUPERUSER_URL python manage.py test stoqs.tests.functional_tests --settings=config.settings.ci"
 echo "===================================================================================================================="
 echo "Open http://localhost:7900/?autoconnect=1&resize=scale&password=secret to monitor progress of the tests"
 

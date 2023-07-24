@@ -279,3 +279,6 @@ stoqs/media/
 .ipython/
 # .env
 # .envs/*
+
+# Temporary copy of working x3dom - until we start making .glbs
+stoqs/static/x3dom-1.8.1/
