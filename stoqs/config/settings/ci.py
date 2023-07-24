@@ -53,7 +53,7 @@ DEBUG_TOOLBAR_CONFIG = {
 
 # django-extensions
 # ------------------------------------------------------------------------------
-# INSTALLED_APPS += ('django_extensions', )
+INSTALLED_APPS += ('django_extensions', )
 
 # TESTING
 # ------------------------------------------------------------------------------
@@ -71,4 +71,4 @@ HOME_PAGE_ALT = env('HOME_PAGE_LOGO', default='MBARI')
 
 LOGGING['loggers']['utils']['level'] = 'WARN'
 LOGGING['loggers']['stoqs']['level'] = 'WARN'
-LOGGING['loggers']['stoqs.views']['level'] = 'WARN'
+LOGGING['loggers']['views']['level'] = 'WARN'

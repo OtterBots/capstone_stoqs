@@ -41,7 +41,7 @@ from lrauv_support import MissionLoader
 from LRAUV.make_load_scripts import lrauvs
 from bs4 import BeautifulSoup
 from loaders import LoadScript, FileNotFound, SIGMAT, SPICE, SPICINESS, ALTITUDE
-from stoqs.stoqs.models import InstantPoint
+from stoqs.models import InstantPoint
 from django.db.models import Max
 from datetime import datetime, timedelta
 from argparse import Namespace

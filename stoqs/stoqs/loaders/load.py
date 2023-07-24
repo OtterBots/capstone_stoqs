@@ -35,7 +35,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db.utils import ConnectionDoesNotExist, OperationalError, ProgrammingError
 from django.db import transaction, connections, close_old_connections
 from slacker import Slacker
-from stoqs.stoqs.models import ResourceType, Resource, Campaign, CampaignResource, MeasuredParameter, \
+from stoqs.models import ResourceType, Resource, Campaign, CampaignResource, MeasuredParameter, \
                          SampledParameter, Activity, Parameter, Platform
 from loaders.timing import MINUTES
 

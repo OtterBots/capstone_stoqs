@@ -4,10 +4,10 @@ STOQS_SRVHOME=/srv
 STOQS_SRVPROJ=/srv/stoqs
 
 # Ensure that stoqs-postgis container is serving databases before continuing
-POSTGRES_DB=postgres python compose/local/stoqs/database-check.py > /dev/null 2>&1
+POSTGRES_DB=postgres python ${STOQS_SRVHOME}/compose/local/stoqs/database-check.py > /dev/null 2>&1
 while [[ $? != 0 ]] ; do
     sleep 5; echo "*** Waiting for postgis container ..."
-    POSTGRES_DB=postgres python compose/local/stoqs/database-check.py > /dev/null 2>&1
+    POSTGRES_DB=postgres python ${STOQS_SRVHOME}/compose/local/stoqs/database-check.py > /dev/null 2>&1
 done
 
 # Allow for psql execution (used for database creation) without a password
@@ -45,12 +45,10 @@ chmod 777 ${MAPFILE_DIR}
 
 # If default stoqs database doesn't exist then load it - also running the unit and functional tests
 echo "Checking for presence of stoqs database..."
-POSTGRES_DB=stoqs python ${STOQS_SRVHOME}/database-check.py
+POSTGRES_DB=stoqs python ${STOQS_SRVHOME}/compose/local/stoqs/database-check.py
 if [[ $? != 0 ]]; then
     echo "Creating default stoqs database and running tests..."
-    #./test.sh changeme load noextraload
-    # sub env variable for password
-    compose/local/stoqs/test.sh ${POSTGRES_PASSWORD} load noextraload
+    ./test.sh ${POSTGRES_PASSWORD} load noextraload
 fi
 
 if [[ ! -z $CAMPAIGNS_MODULE ]]; then
@@ -78,7 +76,7 @@ else
     echo "Starting production server with DATABASE_URL=${DATABASE_URL}..."
     # For testing on port 8000 before certificate is in place make a security exception in your browser
     export MAPSERVER_SCHEME=https
-    python stoqs/manage.py collectstatic --noinput -v 0 # Collect static files
+    python manage.py collectstatic --noinput -v 0 # Collect static files
     /usr/local/bin/uwsgi --emperor /etc/uwsgi/django-uwsgi.ini --pidfile=/tmp/uwsgi.pid
 fi
 

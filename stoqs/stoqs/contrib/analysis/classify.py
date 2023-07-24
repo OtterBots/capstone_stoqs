@@ -32,9 +32,9 @@ import warnings
 from datetime import datetime
 from django.db.utils import IntegrityError
 from textwrap import wrap
-from stoqs.stoqs.models import (Activity, ResourceType, Resource, Measurement, MeasuredParameter,
+from stoqs.models import (Activity, ResourceType, Resource, Measurement, MeasuredParameter,
                           MeasuredParameterResource, ResourceResource)
-from utils.STOQSQManager import LABEL, DESCRIPTION, COMMANDLINE
+from stoqs.utils.STOQSQManager import LABEL, DESCRIPTION, COMMANDLINE
 
 from contrib.analysis import BiPlot, NoPPDataException
 

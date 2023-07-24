@@ -5,7 +5,7 @@ import django.contrib.gis.db.models.fields
 import django.contrib.postgres.fields
 from django.db import migrations, models
 import django.db.models.deletion
-import stoqs.stoqs.models
+import stoqs.models
 
 
 class Migration(migrations.Migration):
@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
             name='Activity',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uuid', stoqs.stoqs.models.UUIDField(editable=False, max_length=32)),
+                ('uuid', stoqs.models.UUIDField(editable=False, max_length=32)),
                 ('name', models.CharField(max_length=256)),
                 ('comment', models.TextField(max_length=2048)),
                 ('startdate', models.DateTimeField()),
@@ -44,7 +44,7 @@ class Migration(migrations.Migration):
             name='ActivityParameter',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uuid', stoqs.stoqs.models.UUIDField(editable=False, max_length=32)),
+                ('uuid', stoqs.models.UUIDField(editable=False, max_length=32)),
                 ('number', models.IntegerField(null=True)),
                 ('min', models.FloatField(null=True)),
                 ('max', models.FloatField(null=True)),
@@ -66,7 +66,7 @@ class Migration(migrations.Migration):
             name='ActivityType',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uuid', stoqs.stoqs.models.UUIDField(editable=False, max_length=32)),
+                ('uuid', stoqs.models.UUIDField(editable=False, max_length=32)),
                 ('name', models.CharField(db_index=True, max_length=128, unique=True)),
             ],
             options={
@@ -78,7 +78,7 @@ class Migration(migrations.Migration):
             name='AnalysisMethod',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uuid', stoqs.stoqs.models.UUIDField(editable=False, max_length=32)),
+                ('uuid', stoqs.models.UUIDField(editable=False, max_length=32)),
                 ('name', models.CharField(db_index=True, max_length=256, unique=True)),
                 ('uristring', models.CharField(max_length=256, null=True)),
             ],
@@ -91,7 +91,7 @@ class Migration(migrations.Migration):
             name='Campaign',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uuid', stoqs.stoqs.models.UUIDField(editable=False, max_length=32)),
+                ('uuid', stoqs.models.UUIDField(editable=False, max_length=32)),
                 ('name', models.CharField(db_index=True, max_length=128, unique_for_date='startdate')),
                 ('startdate', models.DateTimeField(null=True)),
                 ('enddate', models.DateTimeField(null=True)),
@@ -130,7 +130,7 @@ class Migration(migrations.Migration):
             name='Parameter',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uuid', stoqs.stoqs.models.UUIDField(editable=False, max_length=32)),
+                ('uuid', stoqs.models.UUIDField(editable=False, max_length=32)),
                 ('name', models.CharField(max_length=128, unique=True)),
                 ('type', models.CharField(blank=True, max_length=128, null=True)),
                 ('description', models.CharField(blank=True, max_length=512, null=True)),
@@ -149,7 +149,7 @@ class Migration(migrations.Migration):
             name='ParameterGroup',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uuid', stoqs.stoqs.models.UUIDField(editable=False, max_length=32)),
+                ('uuid', stoqs.models.UUIDField(editable=False, max_length=32)),
                 ('name', models.CharField(max_length=128, unique=True)),
                 ('description', models.CharField(blank=True, max_length=128, null=True)),
             ],
@@ -161,7 +161,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='PermaLink',
             fields=[
-                ('uuid', stoqs.stoqs.models.UUIDField(editable=False, max_length=32, primary_key=True, serialize=False)),
+                ('uuid', stoqs.models.UUIDField(editable=False, max_length=32, primary_key=True, serialize=False)),
                 ('parameters', models.TextField()),
                 ('create_date', models.DateTimeField(auto_now_add=True)),
                 ('usage_count', models.IntegerField(default=0)),
@@ -172,7 +172,7 @@ class Migration(migrations.Migration):
             name='PlatformType',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uuid', stoqs.stoqs.models.UUIDField(editable=False, max_length=32)),
+                ('uuid', stoqs.models.UUIDField(editable=False, max_length=32)),
                 ('name', models.CharField(db_index=True, max_length=128, unique=True)),
                 ('color', models.CharField(blank=True, max_length=8, null=True)),
             ],
@@ -181,7 +181,7 @@ class Migration(migrations.Migration):
             name='ResourceType',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uuid', stoqs.stoqs.models.UUIDField(editable=False, max_length=32)),
+                ('uuid', stoqs.models.UUIDField(editable=False, max_length=32)),
                 ('name', models.CharField(db_index=True, max_length=128, unique=True)),
                 ('description', models.CharField(blank=True, max_length=256, null=True)),
             ],
@@ -190,7 +190,7 @@ class Migration(migrations.Migration):
             name='Sample',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uuid', stoqs.stoqs.models.UUIDField(editable=False, max_length=32)),
+                ('uuid', stoqs.models.UUIDField(editable=False, max_length=32)),
                 ('depth', models.DecimalField(db_index=True, decimal_places=30, max_digits=100)),
                 ('geom', django.contrib.gis.db.models.fields.PointField(srid=4326)),
                 ('name', models.CharField(db_index=True, max_length=128)),
@@ -210,7 +210,7 @@ class Migration(migrations.Migration):
             name='SampledParameter',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uuid', stoqs.stoqs.models.UUIDField(editable=False, max_length=32)),
+                ('uuid', stoqs.models.UUIDField(editable=False, max_length=32)),
                 ('datavalue', models.DecimalField(db_index=True, decimal_places=30, max_digits=100)),
                 ('analysismethod', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='stoqs.analysismethod')),
                 ('parameter', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='stoqs.parameter')),
@@ -226,7 +226,7 @@ class Migration(migrations.Migration):
             name='SamplePurpose',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uuid', stoqs.stoqs.models.UUIDField(editable=False, max_length=32)),
+                ('uuid', stoqs.models.UUIDField(editable=False, max_length=32)),
                 ('name', models.CharField(max_length=128, unique=True)),
                 ('description', models.CharField(max_length=1024)),
             ],
@@ -239,7 +239,7 @@ class Migration(migrations.Migration):
             name='SampleType',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uuid', stoqs.stoqs.models.UUIDField(editable=False, max_length=32)),
+                ('uuid', stoqs.models.UUIDField(editable=False, max_length=32)),
                 ('name', models.CharField(db_index=True, max_length=128, unique=True)),
             ],
             options={
@@ -291,7 +291,7 @@ class Migration(migrations.Migration):
             name='Resource',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uuid', stoqs.stoqs.models.UUIDField(editable=False, max_length=32)),
+                ('uuid', stoqs.models.UUIDField(editable=False, max_length=32)),
                 ('name', models.CharField(max_length=128, null=True)),
                 ('value', models.TextField(null=True)),
                 ('uristring', models.CharField(max_length=256, null=True)),
@@ -306,7 +306,7 @@ class Migration(migrations.Migration):
             name='Platform',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uuid', stoqs.stoqs.models.UUIDField(editable=False, max_length=32)),
+                ('uuid', stoqs.models.UUIDField(editable=False, max_length=32)),
                 ('name', models.CharField(max_length=128)),
                 ('color', models.CharField(blank=True, max_length=8, null=True)),
                 ('platformtype', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='stoqs.platformtype')),
@@ -364,7 +364,7 @@ class Migration(migrations.Migration):
             name='CampaignLog',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uuid', stoqs.stoqs.models.UUIDField(editable=False, max_length=32)),
+                ('uuid', stoqs.models.UUIDField(editable=False, max_length=32)),
                 ('timevalue', models.DateTimeField(db_index=True)),
                 ('message', models.CharField(max_length=2048)),
                 ('geom', django.contrib.gis.db.models.fields.PointField(blank=True, null=True, srid=4326)),
@@ -382,7 +382,7 @@ class Migration(migrations.Migration):
             name='ActivityParameterHistogram',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uuid', stoqs.stoqs.models.UUIDField(editable=False, max_length=32)),
+                ('uuid', stoqs.models.UUIDField(editable=False, max_length=32)),
                 ('binlo', models.FloatField()),
                 ('binhi', models.FloatField()),
                 ('bincount', models.IntegerField()),
@@ -413,7 +413,7 @@ class Migration(migrations.Migration):
             name='SampleResource',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uuid', stoqs.stoqs.models.UUIDField(editable=False, max_length=32)),
+                ('uuid', stoqs.models.UUIDField(editable=False, max_length=32)),
                 ('resource', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='stoqs.resource')),
                 ('sample', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='stoqs.sample')),
             ],
@@ -427,7 +427,7 @@ class Migration(migrations.Migration):
             name='SampleRelationship',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uuid', stoqs.stoqs.models.UUIDField(editable=False, max_length=32)),
+                ('uuid', stoqs.models.UUIDField(editable=False, max_length=32)),
                 ('child', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='parent', to='stoqs.sample')),
                 ('parent', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='child', to='stoqs.sample')),
             ],
@@ -441,7 +441,7 @@ class Migration(migrations.Migration):
             name='SampledParameterResource',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uuid', stoqs.stoqs.models.UUIDField(editable=False, max_length=32)),
+                ('uuid', stoqs.models.UUIDField(editable=False, max_length=32)),
                 ('activity', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='stoqs.activity')),
                 ('resource', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='stoqs.resource')),
                 ('sampledparameter', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='stoqs.sampledparameter')),
@@ -456,7 +456,7 @@ class Migration(migrations.Migration):
             name='ResourceResource',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uuid', stoqs.stoqs.models.UUIDField(editable=False, max_length=32)),
+                ('uuid', stoqs.models.UUIDField(editable=False, max_length=32)),
                 ('fromresource', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='toresource', to='stoqs.resource')),
                 ('toresource', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='fromresource', to='stoqs.resource')),
             ],
@@ -470,7 +470,7 @@ class Migration(migrations.Migration):
             name='PlatformResource',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uuid', stoqs.stoqs.models.UUIDField(editable=False, max_length=32)),
+                ('uuid', stoqs.models.UUIDField(editable=False, max_length=32)),
                 ('platform', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='stoqs.platform')),
                 ('resource', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='stoqs.resource')),
             ],
@@ -484,7 +484,7 @@ class Migration(migrations.Migration):
             name='ParameterResource',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uuid', stoqs.stoqs.models.UUIDField(editable=False, max_length=32)),
+                ('uuid', stoqs.models.UUIDField(editable=False, max_length=32)),
                 ('parameter', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='stoqs.parameter')),
                 ('resource', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='stoqs.resource')),
             ],
@@ -498,7 +498,7 @@ class Migration(migrations.Migration):
             name='ParameterGroupParameter',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uuid', stoqs.stoqs.models.UUIDField(editable=False, max_length=32)),
+                ('uuid', stoqs.models.UUIDField(editable=False, max_length=32)),
                 ('parameter', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='stoqs.parameter')),
                 ('parametergroup', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='stoqs.parametergroup')),
             ],
@@ -512,7 +512,7 @@ class Migration(migrations.Migration):
             name='MeasuredParameterResource',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uuid', stoqs.stoqs.models.UUIDField(editable=False, max_length=32)),
+                ('uuid', stoqs.models.UUIDField(editable=False, max_length=32)),
                 ('activity', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='stoqs.activity')),
                 ('measuredparameter', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='stoqs.measuredparameter')),
                 ('resource', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='stoqs.resource')),
@@ -527,7 +527,7 @@ class Migration(migrations.Migration):
             name='CampaignResource',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uuid', stoqs.stoqs.models.UUIDField(editable=False, max_length=32)),
+                ('uuid', stoqs.models.UUIDField(editable=False, max_length=32)),
                 ('campaign', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='stoqs.campaign')),
                 ('resource', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='stoqs.resource')),
             ],
@@ -541,7 +541,7 @@ class Migration(migrations.Migration):
             name='ActivityResource',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uuid', stoqs.stoqs.models.UUIDField(editable=False, max_length=32)),
+                ('uuid', stoqs.models.UUIDField(editable=False, max_length=32)),
                 ('activity', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='stoqs.activity')),
                 ('resource', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='stoqs.resource')),
             ],

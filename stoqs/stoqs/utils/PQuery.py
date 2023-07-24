@@ -17,7 +17,7 @@ from django.conf import settings
 from django.db.models.query import REPR_OUTPUT_SIZE, RawQuerySet, QuerySet
 from django.db import DatabaseError
 from datetime import datetime
-from stoqs.stoqs.models import MeasuredParameter, Parameter, ParameterGroupParameter, MeasuredParameterResource
+from stoqs.models import MeasuredParameter, Parameter, ParameterGroupParameter, MeasuredParameterResource
 from .utils import postgresifySQL, getGet_Actual_Count, EPOCH_STRING
 from loaders.SampleLoaders import SAMPLED
 from loaders import MEASUREDINSITU

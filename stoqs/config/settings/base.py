@@ -21,7 +21,7 @@ if READ_DOT_ENV_FILE:
 # GENERAL CONFIGURATION
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
-DEBUG = env.bool("DJANGO_DEBUG", True)
+DEBUG = env.bool("DJANGO_DEBUG", default=True)
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
@@ -113,7 +113,7 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "stoqs.users",
-    "stoqs.stoqs",
+    "stoqs",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -121,7 +121,9 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 # MIGRATIONS
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#migration-modules
-MIGRATION_MODULES = {"sites": "stoqs.contrib.sites.migrations"}
+MIGRATION_MODULES = {
+    # "sites": "stoqs.contrib.sites.migrations"
+}
 
 # AUTHENTICATION
 # ------------------------------------------------------------------------------
@@ -204,7 +206,11 @@ TEMPLATES = [
         # https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-TEMPLATES-BACKEND
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         # https://docs.djangoproject.com/en/dev/ref/settings/#dirs
-        "DIRS": [str(APPS_DIR / "templates/stoqs"), str(APPS_DIR / "templates")],
+        "DIRS": [
+            str(APPS_DIR / "templates/stoqs"), 
+            str(APPS_DIR / "templates"),
+            str(APPS_DIR / "/tmp"),
+        ],
         # https://docs.djangoproject.com/en/dev/ref/settings/#app-dirs
         "APP_DIRS": False,
         "OPTIONS": {
@@ -242,7 +248,9 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 # FIXTURES
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#fixture-dirs
-FIXTURE_DIRS = (str(APPS_DIR / "fixtures"),)
+FIXTURE_DIRS = (
+    # str(APPS_DIR / "fixtures"),
+)
 
 # SECURITY
 # ------------------------------------------------------------------------------
@@ -362,12 +370,12 @@ LOGGING['loggers']['utils'] = {
                             'level':'INFO',
                             'formatter': 'verbose'
 }
-LOGGING['loggers']['stoqs.views'] = {
+LOGGING['loggers']['views'] = {
                             'handlers':['console'],
                             'level':'INFO',
                             'formatter': 'verbose'
 }
-LOGGING['loggers']['stoqs.tests'] = {
+LOGGING['loggers']['tests'] = {
                             'handlers':['console'],
                             'level':'INFO',
                             'formatter': 'verbose'

@@ -3,7 +3,7 @@ import tempfile
 import string
 import random
 import os
-import stoqs.stoqs.models as mod
+import stoqs.models as mod
 from datetime import datetime
 from django.http import HttpResponse
 from django.template import RequestContext

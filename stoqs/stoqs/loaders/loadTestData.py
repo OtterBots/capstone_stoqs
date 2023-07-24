@@ -63,7 +63,7 @@ cl.m1_startDatetime = datetime.datetime(2010, 10, 27)
 cl.m1_endDatetime = datetime.datetime(2010, 10, 29)
 
 # SubSample data files from /mbari/BOG_Archive/ReportsForSTOQS/GOC12/ copied to local GOC12 dir
-cl.subsample_csv_base = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../stoqs/tests')
+cl.subsample_csv_base = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../tests')
 cl.subsample_csv_files = ['Dorado_2010_300_Bogus_Samples.csv']
 
 
