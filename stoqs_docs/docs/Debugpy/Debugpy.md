@@ -13,7 +13,7 @@ Build the Docker containers:
 Start the application and wait for the prompt to attach the debugger in the Terminal:
 
 `docker-compose -f local.yml up`
-Open Visual Studio Code (VSCode) and make sure the launch.json configuration is present. If not, create a launch configuration for Django in VSCode.
+Open Visual Studio Code (VSCode) and make sure the launch.json configuration is present.
 
 Attach the debugger in VSCode:
 
@@ -30,7 +30,7 @@ Follow any further prompts during the build process, if required.
 
 >Container Compatibility: Debugging a Django application within a Docker container may sometimes reveal issues related to container compatibility and configurations. Ensure that the Docker images and containers are set up correctly, with appropriate volumes and environment variables for the debugger to function seamlessly.
 
->Dependency Conflicts: Debugging may expose dependency conflicts within the application or between the host and the Docker container. Pay attention to the requirements files and package versions to avoid inconsistencies that could affect debugging.
+
 
 
 
