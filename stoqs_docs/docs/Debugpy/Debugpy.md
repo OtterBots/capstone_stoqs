@@ -26,7 +26,7 @@ Follow any further prompts during the build process, if required.
 
 # Issues Encountered:
 
->Running with launch.json and Django Python: Setting up launch.json for debugging Django applications in VSCode can sometimes be challenging, especially if the configuration is incorrect. Ensure that you have the Python extension installed in VSCode and that the launch configuration points to the correct paths of your Django project and manage.py file.
+>Running with launch.json and Django Python: Ensure that you have the Python extension installed in VSCode and that the launch configuration points to the correct paths of your Django project and manage.py file.
 
 >Container Compatibility: Debugging a Django application within a Docker container may sometimes reveal issues related to container compatibility and configurations. Ensure that the Docker images and containers are set up correctly, with appropriate volumes and environment variables for the debugger to function seamlessly.
 
