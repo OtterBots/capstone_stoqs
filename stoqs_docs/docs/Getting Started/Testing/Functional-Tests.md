@@ -49,5 +49,21 @@ In `.env` file, set `DEBUG=0` and `DJANGO_DEBUG=false`.  Stop any running contai
     docker-compose -f local-ci.yml stop
     ```
 
+6. Remove all local-ci.yml containers.
+    ```
+    docker-compose -f local-ci.yml down
+    ```
+
 !!! Note 
     When done with functional tests, you will need to remove the containers created by local-ci.yml (functional test containers) and re-create the local.yml development environment containers.
+
+## Troubleshooting
+
+### **Problem #1**:
+The following error after step 2.
+`Error response from daemon: network 473c0b8fe4e12e0748e3ae16c565da1f05553f1188c9edac3295264961d797cd not found`
+
+**Solution**: Do step 2 again after removing all local-ci.yml containers first:
+```
+docker-compose -f local-ci.yml down
+```
