@@ -1,27 +1,73 @@
-## Installation from terminal (for base cookiecutter-django project)
-
-View [cookie_config.txt](../../../cookie_config.txt) file for settings used.
+## Installation from terminal (first time)
 
 1. Clone repo (your ssh should already be setup):
-```git clone git@github.com:OtterBots/capstone_stoqs.git```
-2. Change directory to the directory which contains `local.yml`:From the root of the project -> `cd stoqs`
-3. Edit the `stoqs/.env`: change the `STOQS_HOME` variable to be the absolute path to the dockeer-compose file (check with `pwd` from the STOQS home directory)
-4. in local.yml the last volume in the stoqs service has been changed from `${STOQS_HOME}` to `${PWD}` to mount the directory that local.yml is run from to `/srv/` this works well on unix/linux machines. Change it back to `${STOQS_HOME}` if you want to use the fully qualified hardcoded path mentioned in step 3
-``` yaml hl_lines="6" linenums="16"
-    volumes:
-      - ${STOQS_VOLS_DIR}/maps:${MAPFILE_DIR}
-      - ${STOQS_VOLS_DIR}/stoqs_root:/root
-      - ${STOQS_VOLS_DIR}/nginx:/usr/share/nginx
-      - ${STOQS_VOLS_DIR}/pg_dumps:/srv/media-files/pg_dumps
-      - ${PWD}:/srv
-      - static-files:/srv/static-files
-      - media-files:/srv/media-files
-```
-7. Make sure your Docker Desktop program is running.
-8. Build project:
-```docker-compose -f local.yml build```
-9. Run project:
-```docker-compose -f local.yml up```
-10. View project in browser:
-`localhost:8000/stoqs`
-11. Windows users beware! Also M1 users :apple:
+    ```
+    git clone git@github.com:OtterBots/capstone_stoqs.git
+    ```
+
+2. Change directory to the stoqs project folder which contains `local.yml`:
+    ```
+    cd capstone_stoqs/stoqs
+    ```
+
+3. Edit the `.env` file depending if your processor is x86 (intel/amd) or arm64 (apple silicon):
+    ```
+    # Library locations as provided in base image for Dockerfile-stoqs
+    # This path will vary depending on your architecture use aarch64 for arm (apple silicon) and use x86 for intel/amd.
+    # GEOS_LIBRARY_PATH=/usr/lib/aarch64-linux-gnu/libgeos_c.so
+    GEOS_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/libgeos_c.so
+    ```
+
+4. Edit the `Dockerfile-mapserver` file located at `compose/local/mapserver` depending on whether you are x86 or arm64:
+    ```
+    # Change this variable based on your cpu. Use arm64 for arm (apple silscon)
+    FROM mapserver/mapserver:v7.4.2
+    # FROM camptocamp/mapserver:8.0-arm64
+    ```
+
+5. Edit settings in `.env` (optional) (0: off, 1: on):
+    ```
+    ## This variable enables debugpy listener in manage.py
+    DEBUG=0
+
+    ## This variable forces start-stoqs.sh to run test.sh set TEST=1 to run test.sh
+    TEST=0
+    ```
+
+6. Make sure your Docker Desktop program is running.  (Should be installed for your particular system.)
+
+7. Build project:
+    ```
+    docker-compose -f local.yml build
+    ```
+
+8. Run project:
+    ```
+    docker-compose -f local.yml up
+    ```
+
+9. View project in browser: ```localhost:8000/stoqs```
+
+10. To exit:
+    ```
+    docker-compose -f local.yml stop
+    ```
+    or stop containers using Docker Desktop.
+
+!!! Note
+    All runs after only require that step 8 and onward, unless changes were made to build files or changes to .env settings.
+
+
+# Troubleshooting
+
+1. Windows OS pathing issues and other operating system dependant complications.
+
+    Guide coming soon.
+
+2. asdf
+
+    more stuff soon
+
+
+!!! Info
+    View [cookie_config.txt](../../../cookie_config.txt) file for settings used in this project.
