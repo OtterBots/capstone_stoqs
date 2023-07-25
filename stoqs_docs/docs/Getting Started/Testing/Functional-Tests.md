@@ -18,24 +18,36 @@ In `.env` file, set `DEBUG=0` and `DJANGO_DEBUG=false`.  Stop any running contai
 
 3. Run the `local-ci.yml`:
     ```
-    export DATABASE_URL=postgis://stoqsadm:CHANGEME@stoqs-postgis:5432/stoqs
+    docker-compose -f local-ci.yml run --rm stoqs /bin/bash
     ```
 
-4. Start the functional test with the following command:
+4. After running the command, a bash shell will appear, and it will look similar to the following prompt:
+
+    `root@601e658963ba:/srv#`
+
+5. Next, set the `DATABASE_SUPERUSER_URL` environment variable by entering the following command:
+    ``` bash
+    export DATABASE_SUPERUSER_URL=postgis://postgres:changeme@stoqs-postgis:5432/stoqs
+    ```
+
+6. Start the functional test with the following command:
     ``` bash
     DATABASE_URL=$DATABASE_SUPERUSER_URL python manage.py test stoqs.tests.functional_tests --settings=config.settings.ci
     ```
 
-5. Open browser to:
+6. Open browser to:
     ```
     http://localhost:7900/?autoconnect=1&resize=scale&password=secret
     ```
 
     Test takes over 5 minutes.
 
-6. Container will stop when test is done.
-
 7. Type `exit` in shell to exit.
+
+6. Stop containers.
+    ```
+    docker-compose -f local-ci.yml stop
+    ```
 
 !!! Note 
     When done with functional tests, you will need to remove the containers created by local-ci.yml (functional test containers) and re-create the local.yml development environment containers.
