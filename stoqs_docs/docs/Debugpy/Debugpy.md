@@ -12,8 +12,9 @@ Make sure you are in the "capstone_stoqs/stoqs" directory in the terminal:
 
 3. Open vscode from the stoqs directory. `code .`
 
-  !!! note
-  The top level directory in vscode needs to be `capstone_stoqs/stoqs` for debugpy to work. This is because we need to map this directory to the `/srv` directory in the container and vscode looks for the `.vscode/launch.json` file in the top level
+!!! note
+      
+      The top level directory in vscode needs to be `capstone_stoqs/stoqs` for debugpy to work. This is because we need to map this directory to the `/srv` directory in the container and vscode looks for the `.vscode/launch.json` file in the top level
 
 5. Start container stack: `docker-compose -f local.yml up`
 Open Visual Studio Code (VSCode) and make sure the launch.json configuration is present.
