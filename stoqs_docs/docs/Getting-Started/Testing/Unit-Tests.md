@@ -1,6 +1,6 @@
 ## Running all tests (test.sh)
 
-Containers should already exist for local.yml but not running before following the below instructions.  Also, `.env` file at root, set `DEBUG=0`.  This ensures no interuption from the debugpy.
+Containers should already exist for local.yml but not running before following the below instructions.  Also, `.env` file at root, set `DEBUG=0`, set `TEST=0`.  This ensures no interuption from the debugpy.
 
 1. Open the terminal and go to the capstone_stoqs/stoqs directory where the local.yml is located.  Run the following command to create the containers:
     ```
@@ -88,6 +88,10 @@ OK
 
 !!! Note 
     The above log was with 5 tests commented out (see Troubleshooting Problem #1).
+## Other ways to run test.sh
+`stoqs-start.sh` runs a database check and if it finds the postgis database not setup it will run `test.sh` (usualy on first dry run). Setting the `TEST` environmental variable in the `.env` file will force `start-stoqs.sh` to run `test.sh` regardless of databasecheck.py return code. 
+
+There is a test database that will not be cleared automatically if running `test.sh` this way. For now it can be manually removed before starting the containers. Or we could add an `rm` line into the script if that is desired behavior 
 
 ## Troubleshooting
 
