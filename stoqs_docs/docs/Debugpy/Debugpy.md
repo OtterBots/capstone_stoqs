@@ -6,21 +6,24 @@ The debugger, debugpy, is implemented in a containerized Django project to enabl
 
 Make sure you are in the "capstone_stoqs/stoqs" directory in the terminal:
 
-`cd capstone_stoqs/stoqs`
-Build the Docker containers:
+1. Change directory to the first "stoqs" directory `cd capstone_stoqs/stoqs`
+2. In the `.env` file ensure `DEBUG` environemental variable is set to 1 
+2. Build Containers:  `docker-compose -f local.yml build`
 
-`docker-compose -f local.yml build`
-Start the application and wait for the prompt to attach the debugger in the Terminal:
+3. Open vscode from the stoqs directory. `code .`
 
-`docker-compose -f local.yml up`
+!!! note
+      
+      The top level directory in vscode needs to be `capstone_stoqs/stoqs` for debugpy to work. This is because we need to map this directory to the `/srv` directory in the container and vscode looks for the `.vscode/launch.json` file in the top level
+
+5. Start container stack: `docker-compose -f local.yml up`
 Open Visual Studio Code (VSCode) and make sure the launch.json configuration is present.
 
-Attach the debugger in VSCode:
-
-Look for the "Run and Debug" panel in VSCode.
-Select the "Python: Django" configuration.
-Click the "Start Debugging" button.
-The application will start building, and the debugger will prompt for attachment.
+6. Attach the debugger in VSCode:
+    * Look for the "Run and Debug" panel in VSCode.
+    * Select the "Python: Django" configuration.
+    * Click the "Start Debugging" button.
+    * The application will start building, and the debugger will prompt for attachment.
 
 Follow any further prompts during the build process, if required.
 
