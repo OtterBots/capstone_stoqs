@@ -1,5 +1,6 @@
-# FROM mapserver/mapserver:v7.4.2
-FROM camptocamp/mapserver:8.0-arm64
+# Change this variable based on your cpu. Use arm64 for arm (apple silscon)
+FROM mapserver/mapserver:v7.4.2
+#FROM camptocamp/mapserver:8.0-arm64
 
 USER root
 
