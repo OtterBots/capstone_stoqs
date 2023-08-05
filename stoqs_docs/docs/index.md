@@ -49,5 +49,5 @@ subgraph Capstone_Repo
         Stoqs2 --> MapServer2
     end
 end
-STOQS_Repo --> Capstone_Repo
+STOQS_Repo -- Refactor --> Capstone_Repo
 ```
