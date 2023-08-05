@@ -17,7 +17,37 @@ The objective of this project is to restructure the [stoqs system](https://githu
 flowchart LR
     Postgis[(Postgis)]
     Stoqs["Stoqs"]
+    MapServer2["MapServer"]
+    Postgis2[(Postgis)]
+    Stoqs2["Stoqs"]
+    MapServer2["MapServer"]
 
-    Postgis --- Stoqs
-    Stoqs--- MapServer
+subgraph STOQS_Repo
+    subgraph Host-Machine
+        subgraph VirtualBox
+            subgraph Vagrant
+                subgraph CentOS-LinuxOS
+                    Stoqs --> Postgis
+                    Stoqs --> Mapserver
+                end
+            end
+        end
+    end
+end
+subgraph Capstone_Repo
+    subgraph Host-Machine2
+        subgraph Docker-STOQS
+            Stoqs2
+        end
+        subgraph Docker-Postgis
+            Postgis2
+        end
+        subgraph Docker-Mapserver
+            MapServer2
+        end
+        Stoqs2 --> Postgis2
+        Stoqs2 --> MapServer2
+    end
+end
+STOQS_Repo --> Capstone_Repo
 ```
